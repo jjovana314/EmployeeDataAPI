@@ -69,6 +69,18 @@ class CompanyEmployeeData:
     def range_(self):
         return self._range
 
+    def return_values_company(self):
+        return [
+            self.id_,
+            self.index,
+            self.guid,
+            self.is_active,
+            self.balance,
+            self.company,
+            self.registered,
+            self.range_,
+        ]
+
     def __repr__(self):
         return (
             f"{__class__.__name__}(id_={self.id_}, "
@@ -83,7 +95,7 @@ class CompanyEmployeeData:
             f"Employee id: {self.id_}\nEmployee index: {self.index}\n"
             f"Guid: {self.guid}\nIs active: {self.is_active}\n"
             f"Employee balance: {self.balance}\nCompany: {self.company}\n"
-            f"Date of registration: {self.registered}\nEmployee range: {self.range_}"
+            f"Date of registration: {self.registered}\nEmployee range: {self.range_}\n"
         )
 
     def __eq__(self, other):
