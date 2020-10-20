@@ -1,10 +1,41 @@
 """ Validators for employee data. """
 from http import HTTPStatus
+from exception_messages import (
+    schema_errors, error_messages, schema_exceptions
+)
+from jsonschema import validate
+from jsonschema.exceptions import ValidationError
+from json import dumps, loads
 import re
 import validators
+import exceptions
 
 
 # todo: write documentation
+
+def validate_schema(schema: dict, data: dict) -> None:
+    """ JSON schema validation.
+
+    Arguments:
+        schema {dict} -- valid dictionary
+        data {dict} -- dictionary for validation
+
+    Raises:
+        SchemaError: if data dictionary is not valid
+    """
+    # we want json data, so we have to dump our data into json string
+    data = dumps(data)
+    try:
+        # try to do validation for our json data
+        validate(loads(data), schema)
+    except ValidationError as ex:
+        # ! here we do not except JSONDecodeError, remember that!
+        ex_str = str(ex)
+        for idx, value in enumerate(schema_errors):
+            # create appropriate message for user
+            # if there is exception occured
+            if value in ex_str:
+                raise schema_exceptions[idx](error_messages[idx])
 
 
 def balance_validation(value: str) -> bool:
