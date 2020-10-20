@@ -109,9 +109,7 @@ class PersonalEmployeeData:
 
     @latitude.setter
     def latitude(self, value: str) -> None:
-        self._latitude = validators.latitude_longitude_validation(
-            value, "latitude"
-        )
+        self._latitude = validators.latitude_longitude_validation(value, "latitude")
 
     @property
     def longitude(self) -> str:
@@ -119,9 +117,25 @@ class PersonalEmployeeData:
 
     @longitude.setter
     def longitude(self, value: str) -> None:
-        self._longitude = helper.latitude_longitude_validation(
-            value, "longitude"
-        )
+        self._longitude = helper.latitude_longitude_validation(value, "longitude")
+
+    def return_values_personal(self):
+        return [
+            self.name,
+            self.phone,
+            self.address,
+            self.email,
+            self.picture,
+            self.age,
+            self.eye_color,
+            self.about,
+            self.latitude,
+            self.longitude,
+            self.tags,
+            self.friends,
+            self.greeting,
+            self.favorite_fruit,
+        ]
 
     def __repr__(self) -> str:
         return (
@@ -143,7 +157,7 @@ class PersonalEmployeeData:
             f"Eye color: {self.eye_color}\nAbout: {self.about}\n"
             f"Latitude: {self.latitude}\nLongitude: {self.longitude}\n"
             f"Tags: {self.tags}\nFriends: {self.friends}\nGreeting={self.greeting}\n"
-            f"Favorite fruit: {self.favorite_fruit}"
+            f"Favorite fruit: {self.favorite_fruit}\n"
         )
 
     def __eq__(self, other: object) -> bool:
