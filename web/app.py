@@ -3,6 +3,7 @@ from flask_restful import Resources, Api
 from pymongo import MongoClient
 
 # todo: write docstrings and comments in all modules
+# TODO: finish API
 
 app = Flask(__main__)
 api = Api(app)
