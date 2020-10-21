@@ -19,9 +19,7 @@ db = mongo_client.EmployeeData
 personal = db["Personal"]
 company = db["Company"]
 
-schema = {}
-with open("schema.json", "r") as f:
-    schema = json.load(f, encoding="utf-8")
+schema = json.load(open("schema.json", "r"))
 
 company_employee_keys = [
     "_id",
