@@ -21,7 +21,9 @@ company = db["Company"]
 # TODO: fix bug file not exist 
 data_path = "~/Desktop/Python_lekcije_projekti/EmployeeDataAPI/schema.json"
 
-schema = json.load(open(data_path, "r"))
+schema = {}
+with open("schema.json", "r") as f:
+    schema = json.load(f)
 
 company_employee_keys = [
     "_id",
