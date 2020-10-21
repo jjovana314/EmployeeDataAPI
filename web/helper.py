@@ -80,9 +80,8 @@ def picture_validation(value: str) -> str:
 
 
 def address_validation(value: str) -> str:
-    def has_numbers(value):
-        return bool(re.search(r"\d", value))
-    if not has_numbers(value):
+    has_numbers = bool(re.search(r"\d", value))
+    if not has_numbers:
         raise ValueError("address is not valid, please enter numbers in it", HTTPStatus.BAD_REQUEST)
     return value
 
