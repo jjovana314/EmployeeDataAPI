@@ -54,10 +54,19 @@ def balance_validation(value: str) -> bool:
 
 
 def phone_validation(value: str) -> str:
-    if value[0] != "+" and value[1] != "1":
-        raise ValueError("phone number has invalid call number", HTTPStatus.BAD_REQUEST)
+    for num in value:
+        if num == " ":
+            index_call_number = value.index(num)
+            break
+    # phone number without call number
+    phone_number = value[index_call_number:]
+    # if value[0] != "+" and value[1] != "1":
+    #     raise ValueError("phone number has invalid call number", HTTPStatus.BAD_REQUEST)
+
+    # todo: fix regex formating
     regex = "\(w{3}\)\w{3}-\w{4}"
 
+    # value[3:] is phone number without call number (+1)
     if re.search(regex, value[3:].replace(" ", "")):
         return value
     raise ValueError("phone number is not in valid format", HTTPStatus.BAD_REQUEST)
