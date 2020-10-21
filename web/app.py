@@ -1,25 +1,27 @@
 from flask import jsonify, Flask, request
-from flask_restful import Resources, Api
+from flask_restful import Resource, Api
 from pymongo import MongoClient
 from exceptions import SchemaError
 from datetime import datetime
 from resources.CompanyEmployeeData import CompanyEmployeeData
 from resources.PersonalEmployeeData import PersonalEmployeeData
+from http import HTTPStatus
 import json
 import helper
 
 # todo: write docstrings and comments in all modules
-# TODO: finish API
 
-app = Flask(__main__)
+app = Flask(__name__)
 api = Api(app)
 
-mongo_client = MongoClient("mongodb:/db:27017")
+mongo_client = MongoClient("mongodb://db:27017")
 db = mongo_client.EmployeeData
 personal = db["Personal"]
 company = db["Company"]
+# TODO: fix bug file not exist 
+data_path = "~/Desktop/Python_lekcije_projekti/EmployeeDataAPI/schema.json"
 
-schema = json.load(open("schema.json", "r"))
+schema = json.load(open(data_path, "r"))
 
 company_employee_keys = [
     "_id",
@@ -49,11 +51,10 @@ personal_employee_keys = [
     "favorite_fruit",
 ]
 
-dict_all_data = {}
 list_all_dicts = []
 
 
-class Employee(Resources):
+class Employee(Resource):
     def post(self):
         data = request.get_json()
 
@@ -76,14 +77,17 @@ class Employee(Resources):
 
             personal_values = personal_object.return_values_personal()
             company_values = company_object.return_values_company()
+
             personal_dict = zip(personal_employee_keys, personal_values)
             company_dict = zip(company_employee_keys, company_values)
-            # todo: merge two dictionaries
-            # todo: add them in list
-            # todo: test code
+
+            list_all_dicts.append(personal_dict)
+            list_all_dicts.append(company_dict)
+
+        return jsonify({"message": list_all_dicts, "code": HTTPStatus.OK})
 
 
-api.add_resource("/employee_data", Employee)
+api.add_resource(Employee, "/employee_data")
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
