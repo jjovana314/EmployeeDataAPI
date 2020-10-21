@@ -18,8 +18,6 @@ mongo_client = MongoClient("mongodb://db:27017")
 db = mongo_client.EmployeeData
 personal = db["Personal"]
 company = db["Company"]
-# TODO: fix bug file not exist 
-data_path = "~/Desktop/Python_lekcije_projekti/EmployeeDataAPI/schema.json"
 
 schema = {}
 with open("schema.json", "r") as f:
