@@ -78,7 +78,7 @@ class CompanyEmployeeData:
             self.balance,
             self.company,
             self.registered,
-            self.range_,
+            self.range_
         ]
 
     def __repr__(self):
@@ -122,6 +122,6 @@ class CompanyEmployeeData:
                 self.balance,
                 self.company,
                 self.registered,
-                self.range_,
+                self.range_
             )
         )

@@ -134,7 +134,7 @@ class PersonalEmployeeData:
             self.tags,
             self.friends,
             self.greeting,
-            self.favorite_fruit,
+            self.favorite_fruit
         ]
 
     def __repr__(self) -> str:
@@ -194,6 +194,6 @@ class PersonalEmployeeData:
                 self.tags,
                 self.friends,
                 self.greeting,
-                self.favorite_fruit,
+                self.favorite_fruit
             )
         )
