@@ -52,6 +52,8 @@ personal_employee_keys = [
 ]
 
 list_all_dicts = []
+company_data = []
+personal_data = []
 
 
 class Employee(Resource):
@@ -64,7 +66,7 @@ class Employee(Resource):
             except SchemaError as ex:
                 return jsonify({"message": ex.args[0], "code": ex.args[1]})
 
-            for key, value in dictionary:
+            for key, value in dictionary.items():
                 if key in company_employee_keys:
                     company_data.append(value)
                 elif key in personal_employee_keys:
