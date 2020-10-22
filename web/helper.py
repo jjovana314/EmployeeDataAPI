@@ -64,7 +64,7 @@ def phone_validation(value: str) -> str:
     #     raise ValueError("phone number has invalid call number", HTTPStatus.BAD_REQUEST)
 
     # todo: fix regex formating
-    regex = "\(w{3}\)\w{3}-\w{4}"
+    regex = r"\(\w{3}\)\w{3}-\w{4}"
 
     # value[3:] is phone number without call number (+1)
     if re.search(regex, value[3:].replace(" ", "")):
