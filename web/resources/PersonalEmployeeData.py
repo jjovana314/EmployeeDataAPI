@@ -23,7 +23,6 @@ class PersonalEmployeeData:
 
         self.phone = phone
         self.address = address
-        self.email = email
         self.picture = picture
 
         self._age = age
@@ -90,9 +89,8 @@ class PersonalEmployeeData:
     def email(self) -> str:
         return self._email
 
-    @email.setter
-    def email(self, value: str) -> None:
-        self._email = helper.email_validation(value, self.company_name)
+    def email_set(self, value: str, company_name: str) -> None:
+        self._email = helper.email_validation(value, company_name)
 
     @property
     def picture(self) -> str:
@@ -108,7 +106,7 @@ class PersonalEmployeeData:
 
     @latitude.setter
     def latitude(self, value: str) -> None:
-        self._latitude = validators.latitude_longitude_validation(value, "latitude")
+        self._latitude = helper.latitude_longitude_validation(value, "latitude")
 
     @property
     def longitude(self) -> str:
