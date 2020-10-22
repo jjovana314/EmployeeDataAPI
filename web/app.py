@@ -48,7 +48,7 @@ personal_employee_keys = [
     "tags",
     "friends",
     "greeting",
-    "favorite_fruit",
+    "favoriteFruit",
 ]
 
 list_all_dicts = []
@@ -64,18 +64,26 @@ class Employee(Resource):
             try:
                 helper.validate_schema(schema, dictionary)
             except SchemaError as ex:
-                return jsonify({"message": ex.args[0], "code": ex.args[1]})
+                return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
 
             for key, value in dictionary.items():
                 if key in company_employee_keys:
                     company_data.append(value)
                 elif key in personal_employee_keys:
                     personal_data.append(value)
+
             try:
                 company_object = CompanyEmployeeData(*company_data)
                 personal_object = PersonalEmployeeData(*personal_data)
             except ValueError as ex:
                 return jsonify({"message": ex.args[0], "code": ex.args[1]})
+
+            for key, value in dictionary.items():
+                if key == "email":
+                    try:
+                        personal_object.email = value
+                    except ValueError as ex:
+                        return jsonify({"message": ex.args[0], "code": ex.args[1]})
 
             personal_values = personal_object.return_values_personal()
             company_values = company_object.return_values_company()
