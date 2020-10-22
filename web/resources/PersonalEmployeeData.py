@@ -2,23 +2,22 @@ import helper
 from http import HTTPStatus
 
 
-class PersonalEmployeeData:
+class PersonalEmployeeData(Company):
     def __init__(
         self,
-        name: dict,
-        phone: str,
-        address: str,
-        email: str,
         picture: str,
         age: int,
         eye_color: str,
+        name: dict,
+        phone: str,
+        address: str,
         about: str,
         latitude: str,
         longitude: str,
         tags: list,
         friends: list,
         greeting: str,
-        favorite_fruit: str,
+        favorite_fruit: str
     ):
         self._name = name
 
@@ -92,8 +91,8 @@ class PersonalEmployeeData:
         return self._email
 
     @email.setter
-    def email(self, value: str, company_name: str) -> None:
-        self._email = helper.email_validation(value, company_name)
+    def email(self, value: str) -> None:
+        self._email = helper.email_validation(value, self.company_name)
 
     @property
     def picture(self) -> str:
