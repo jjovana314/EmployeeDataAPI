@@ -46,7 +46,7 @@ class CompanyEmployeeData:
 
     @balance.setter
     def balance(self, value: str):
-        self.balance = balance_validation(value)
+        self._balance = balance_validation(value)
 
     @property
     def company(self):
