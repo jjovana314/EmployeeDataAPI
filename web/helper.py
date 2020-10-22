@@ -60,13 +60,9 @@ def phone_validation(value: str) -> str:
             break
     # phone number without call number
     phone_number = value[index_call_number:]
-    # if value[0] != "+" and value[1] != "1":
-    #     raise ValueError("phone number has invalid call number", HTTPStatus.BAD_REQUEST)
 
-    # todo: fix regex formating
     regex = r"\(\w{3}\)\w{3}-\w{4}"
 
-    # value[3:] is phone number without call number (+1)
     if re.search(regex, value[3:].replace(" ", "")):
         return value
     raise ValueError("phone number is not in valid format", HTTPStatus.BAD_REQUEST)
@@ -88,17 +84,31 @@ def address_validation(value: str) -> str:
 
 def email_validation(value: str, company_name: str) -> str:
     company_lower = company_name.lower()
-    company_org = "@" + company_lower + ".org"
-    company_co_uk = "@" + company_lower + ".co.uk"
-    company_com = "@" + company_lower + ".com"
 
-    if (
-        company_org not in company_lower
-        or company_co_uk not in company_lower
-        or company_com not in company_lower
-    ):
-        raise ValueError("email you sent is not valid", HTTPStatus.BAD_REQUEST)
-    return value
+    email_companies = email_generator(
+        company_lower,
+        "org",
+        "co.uk",
+        "com",
+        "io",
+        "biz",
+        "tv"
+    )
+
+    if any(email_companies):
+        return value
+
+    raise ValueError(
+        (
+            f"email you sent is not valid, you sent {value}",
+            f" company is {company_name}"
+        ),
+        HTTPStatus.BAD_REQUEST
+    )
+
+
+def email_generator(company_lower: str, *args, **kwargs) -> list:
+    return ["@" + company_lower + "." + arg for arg in args]
 
 
 def latitude_longitude_validation(value: str, caller_name: str) -> str:
