@@ -2,7 +2,7 @@ import helper
 from http import HTTPStatus
 
 
-class PersonalEmployeeData(Company):
+class PersonalEmployeeData:
     def __init__(
         self,
         picture: str,
