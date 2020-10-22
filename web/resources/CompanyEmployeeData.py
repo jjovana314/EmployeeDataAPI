@@ -3,17 +3,17 @@ from http import HTTPStatus
 from datetime import datetime
 
 
-class CompanyEmployeeData:
+class CompanyEmployeeData(Company):
     def __init__(
         self,
         id_: str,
         index: int,
         guid: str,
         is_active: bool,
-        balance: str,
         company: str,
+        balance: str,
         registered: str,
-        range_: list,
+        range_: list
     ):
         self._id = id_
         self._index = index
@@ -49,21 +49,19 @@ class CompanyEmployeeData:
         self._balance = balance_validation(value)
 
     @property
-    def company(self):
-        return self._company
-
-    @property
     def registered(self):
         return self._registered
+
+    @property
+    def company(self):
+        return self._company
 
     @registered.setter
     def registered(self, value: str):
         try:
-            date_registered = datetime.strptime(value, "%A, %B %d, %Y %I:%M %p")
+            self._registered = datetime.strptime(value, "%A, %B %d, %Y %I:%M %p")
         except ValueError:
             raise ValueError("invalid date format", HTTPStatus.BAD_REQUEST) from None
-        else:
-            self.registered = date_registered
 
     @property
     def range_(self):
