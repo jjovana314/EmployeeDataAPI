@@ -3,7 +3,7 @@ from http import HTTPStatus
 from datetime import datetime
 
 
-class CompanyEmployeeData(Company):
+class CompanyEmployeeData:
     def __init__(
         self,
         id_: str,
