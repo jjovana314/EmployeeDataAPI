@@ -35,13 +35,12 @@ company_employee_keys = [
 ]
 
 personal_employee_keys = [
-    "name",
-    "phone",
-    "address",
-    "email",
     "picture",
     "age",
     "eyeColor",
+    "name",
+    "phone",
+    "address",
     "about",
     "latitude",
     "longitude",
@@ -52,25 +51,27 @@ personal_employee_keys = [
 ]
 
 list_all_dicts = []
-company_data = []
-personal_data = []
 
 
 class Employee(Resource):
     def post(self):
         data = request.get_json()
+        global company_employee_keys
+        global personal_employee_keys
 
         for dictionary in data:
+            company_data = []
+            personal_data = []
             try:
                 helper.validate_schema(schema, dictionary)
             except SchemaError as ex:
                 return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
 
-            for key, value in dictionary.items():
+            for key in dictionary.keys():
                 if key in company_employee_keys:
-                    company_data.append(value)
-                elif key in personal_employee_keys:
-                    personal_data.append(value)
+                    company_data.append(dictionary.get(key))
+                if key in personal_employee_keys:
+                    personal_data.append(dictionary.get(key))
 
             try:
                 company_object = CompanyEmployeeData(*company_data)
@@ -81,15 +82,15 @@ class Employee(Resource):
             for key, value in dictionary.items():
                 if key == "email":
                     try:
-                        personal_object.email = value
+                        personal_object.email_set(value, dictionary["company"])
                     except ValueError as ex:
                         return jsonify({"message": ex.args[0], "code": ex.args[1]})
 
             personal_values = personal_object.return_values_personal()
             company_values = company_object.return_values_company()
 
-            personal_dict = zip(personal_employee_keys, personal_values)
-            company_dict = zip(company_employee_keys, company_values)
+            personal_dict = dict(zip(personal_employee_keys, personal_values))
+            company_dict = dict(zip(company_employee_keys, company_values))
 
             list_all_dicts.append(personal_dict)
             list_all_dicts.append(company_dict)
