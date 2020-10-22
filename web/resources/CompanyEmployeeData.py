@@ -10,8 +10,8 @@ class CompanyEmployeeData:
         index: int,
         guid: str,
         is_active: bool,
-        company: str,
         balance: str,
+        company: str,
         registered: str,
         range_: list
     ):
