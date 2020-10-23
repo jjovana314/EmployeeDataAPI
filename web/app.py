@@ -50,14 +50,13 @@ personal_employee_keys = [
     "favoriteFruit",
 ]
 
-list_all_dicts = []
-
 
 class Employee(Resource):
     def post(self):
         data = request.get_json()
         global company_employee_keys
         global personal_employee_keys
+        # todo: separate this into small functions
 
         for dictionary in data:
             company_data = []
@@ -86,16 +85,19 @@ class Employee(Resource):
                     except ValueError as ex:
                         return jsonify({"message": ex.args[0], "code": ex.args[1]})
 
+            # todo: too hardcoded, fix that
             personal_values = personal_object.return_values_personal()
             company_values = company_object.return_values_company()
-
+            all_personal_dicts = []
+            all_company_dicts = []
             personal_dict = dict(zip(personal_employee_keys, personal_values))
             company_dict = dict(zip(company_employee_keys, company_values))
+            all_personal_dicts.append(personal_dict)
+            all_company_dicts.append(company_dict)
+            personal.insert(all_personal_dicts)
+            company.insert(all_company_dicts)
 
-            list_all_dicts.append(personal_dict)
-            list_all_dicts.append(company_dict)
-
-        return jsonify({"message": list_all_dicts, "code": HTTPStatus.OK})
+        return jsonify({"message": "data saved in database successfully", "code": HTTPStatus.OK})
 
 
 api.add_resource(Employee, "/employee_data")
