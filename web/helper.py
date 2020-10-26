@@ -1,4 +1,4 @@
-""" Validators for employee data. """
+""" Validator and helper for employee data. """
 from http import HTTPStatus
 from exception_messages import (
     schema_errors, error_messages, schema_exceptions
@@ -118,3 +118,20 @@ def latitude_longitude_validation(value: str, caller_name: str) -> str:
         raise ValueError(f"'{caller_name}' is not valid", HTTPStatus.BAD_REQUEST)
     else:
         return value
+
+
+def generate_data(
+    personal_keys: list, company_keys: list,
+    personal_object: object, company_object: object
+) -> tuple:
+    personal_values = personal_object.return_values_personal()
+    company_values = company_object.return_values_company()
+    
+    all_personal_dicts = []
+    all_company_dicts = []
+
+    personal_dicts = dict(zip(personal_keys, personal_values))
+    company_dicts = dict(zip(company_keys, company_values))
+    all_personal_dicts.append(personal_dicts)
+    all_company_dicts.append(company_dicts)
+    return all_personal_dicts, all_company_dicts
