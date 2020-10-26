@@ -85,15 +85,10 @@ class Employee(Resource):
                     except ValueError as ex:
                         return jsonify({"message": ex.args[0], "code": ex.args[1]})
 
-            # todo: too hardcoded, fix that
-            personal_values = personal_object.return_values_personal()
-            company_values = company_object.return_values_company()
-            all_personal_dicts = []
-            all_company_dicts = []
-            personal_dict = dict(zip(personal_employee_keys, personal_values))
-            company_dict = dict(zip(company_employee_keys, company_values))
-            all_personal_dicts.append(personal_dict)
-            all_company_dicts.append(company_dict)
+            all_personal_dicts, all_company_dicts = helper.generate_data(
+                personal_employee_keys, company_employee_keys,
+                personal_object, company_object
+            )
             personal.insert(all_personal_dicts)
             company.insert(all_company_dicts)
 
