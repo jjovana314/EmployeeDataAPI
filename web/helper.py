@@ -40,12 +40,14 @@ def validate_schema(schema: dict, data: dict) -> None:
 
 def balance_validation(value: str) -> bool:
     if value[0] != "$":
+        # dollar is expected currency
         raise ValueError(
             f"invalid currency (expected '$', not {value[0]})",
             HTTPStatus.BAD_REQUEST
         )
 
     try:
+        # ! work in python 3+
         value_num = float(value[1:].replace(",","_"))
     except ValueError:
         raise ValueError("balance is not valid", HTTPStatus.BAD_REQUEST)
@@ -56,15 +58,20 @@ def balance_validation(value: str) -> bool:
 def phone_validation(value: str) -> str:
     for num in value:
         if num == " ":
+            # we expect that phone number start with call number
+            # and take index of first space after call number
             index_call_number = value.index(num)
             break
     # phone number without call number
     phone_number = value[index_call_number:]
 
+    # format of phone number without call number
     regex = r"\(\w{3}\)\w{3}-\w{4}"
 
-    if re.search(regex, value[3:].replace(" ", "")):
+    # removing all spaces
+    if re.search(regex, value[index_call_number:].replace(" ", "")):
         return value
+    # if phone number does not match to regex format
     raise ValueError("phone number is not in valid format", HTTPStatus.BAD_REQUEST)
 
 
@@ -77,6 +84,7 @@ def picture_validation(value: str) -> str:
 
 def address_validation(value: str) -> str:
     has_numbers = bool(re.search(r"\d", value))
+    # validation is based on checking if there are numbers in address
     if not has_numbers:
         raise ValueError("address is not valid, please enter numbers in it", HTTPStatus.BAD_REQUEST)
     return value
@@ -107,7 +115,7 @@ def email_validation(value: str, company_name: str) -> str:
     )
 
 
-def email_generator(company_lower: str, *args, **kwargs) -> list:
+def email_generator(company_lower: str, *args) -> list:
     return ["@" + company_lower + "." + arg for arg in args]
 
 
