@@ -9,7 +9,7 @@ from http import HTTPStatus
 import json
 import helper
 
-# todo: write docstrings and comments in all modules
+# todo: write docstrings in all modules
 
 app = Flask(__name__)
 api = Api(app)
@@ -67,6 +67,7 @@ class Employee(Resource):
                 return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
 
             for key in dictionary.keys():
+                # keys validation
                 if key in company_employee_keys:
                     company_data.append(dictionary.get(key))
                 if key in personal_employee_keys:
@@ -79,8 +80,10 @@ class Employee(Resource):
                 return jsonify({"message": ex.args[0], "code": ex.args[1]})
 
             for key, value in dictionary.items():
+                # iterate thru inner dictionary
                 if key == "email":
                     try:
+                        # calling email setter
                         personal_object.email_set(value, dictionary["company"])
                     except ValueError as ex:
                         return jsonify({"message": ex.args[0], "code": ex.args[1]})
