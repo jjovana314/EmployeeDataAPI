@@ -8,7 +8,6 @@ from jsonschema.exceptions import ValidationError
 from json import dumps, loads
 import re
 import validators
-import exceptions
 
 
 # todo: write documentation
@@ -145,7 +144,7 @@ def generate_data(
     return all_personal_dicts, all_company_dicts
 
 
-def id_key_config(data: list):
+def id_key_config(data: list) -> list:
     data_return = list()
     dict_return = dict()
 
