@@ -24,7 +24,7 @@ with open("schema.json", "r") as f:
     schema = json.load(f)
 
 company_employee_keys = [
-    "_id",
+    "id",
     "index",
     "guid",
     "isActive",
@@ -57,6 +57,7 @@ class Employee(Resource):
         global company_employee_keys
         global personal_employee_keys
         # todo: separate this into small functions
+        data = helper.id_key_config(data)
 
         for dictionary in data:
             company_data = []
@@ -64,7 +65,7 @@ class Employee(Resource):
             try:
                 helper.validate_schema(schema, dictionary)
             except SchemaError as ex:
-                return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
+                return jsonify({"message": ex, "code": HTTPStatus.BAD_REQUEST})
 
             for key in dictionary.keys():
                 # keys validation
