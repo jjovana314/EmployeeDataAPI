@@ -143,3 +143,17 @@ def generate_data(
     all_personal_dicts.append(personal_dicts)
     all_company_dicts.append(company_dicts)
     return all_personal_dicts, all_company_dicts
+
+
+def id_key_config(data: list):
+    data_return = list()
+    dict_return = dict()
+
+    for dict_ in data:
+        for key, value in dict_.items():
+            if key == "_id":
+                dict_return["id"] = value
+            else:
+                dict_return[key] = value
+        data_return.append(dict_return)
+    return data_return
