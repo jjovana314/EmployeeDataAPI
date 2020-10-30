@@ -10,6 +10,7 @@ import json
 import helper
 
 # todo: write docstrings in all modules
+# todo: fix bug in stupid schema because it is not working
 
 app = Flask(__name__)
 api = Api(app)
