@@ -60,41 +60,42 @@ class Employee(Resource):
         data = helper.id_key_config(data)
 
         for dictionary in data:
-            company_data = []
-            personal_data = []
             try:
                 helper.validate_schema(schema, dictionary)
             except SchemaError as ex:
                 return jsonify({"message": ex, "code": HTTPStatus.BAD_REQUEST})
+            else:
+                company_data = []
+                personal_data = []
 
-            for key in dictionary.keys():
-                # keys validation
-                if key in company_employee_keys:
-                    company_data.append(dictionary.get(key))
-                if key in personal_employee_keys:
-                    personal_data.append(dictionary.get(key))
+                for key in dictionary.keys():
+                    # keys validation
+                    if key in company_employee_keys:
+                        company_data.append(dictionary.get(key))
+                    if key in personal_employee_keys:
+                        personal_data.append(dictionary.get(key))
 
-            try:
-                company_object = CompanyEmployeeData(*company_data)
-                personal_object = PersonalEmployeeData(*personal_data)
-            except ValueError as ex:
-                return jsonify({"message": ex.args[0], "code": ex.args[1]})
+                try:
+                    company_object = CompanyEmployeeData(*company_data)
+                    personal_object = PersonalEmployeeData(*personal_data)
+                except ValueError as ex:
+                    return jsonify({"message": ex.args[0], "code": ex.args[1]})
 
-            for key, value in dictionary.items():
-                # iterate thru inner dictionary
-                if key == "email":
-                    try:
-                        # calling email setter
-                        personal_object.email_set(value, dictionary["company"])
-                    except ValueError as ex:
-                        return jsonify({"message": ex.args[0], "code": ex.args[1]})
+                for key, value in dictionary.items():
+                    # iterate thru inner dictionary
+                    if key == "email":
+                        try:
+                            # calling email setter
+                            personal_object.email_set(value, dictionary["company"])
+                        except ValueError as ex:
+                            return jsonify({"message": ex.args[0], "code": ex.args[1]})
 
-            all_personal_dicts, all_company_dicts = helper.generate_data(
-                personal_employee_keys, company_employee_keys,
-                personal_object, company_object
-            )
-            personal.insert(all_personal_dicts)
-            company.insert(all_company_dicts)
+                all_personal_dicts, all_company_dicts = helper.generate_data(
+                    personal_employee_keys, company_employee_keys,
+                    personal_object, company_object
+                )
+                personal.insert(all_personal_dicts)
+                company.insert(all_company_dicts)
 
         return jsonify({"message": "data saved in database successfully", "code": HTTPStatus.OK})
 
