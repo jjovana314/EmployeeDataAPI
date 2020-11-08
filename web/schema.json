@@ -54,5 +54,29 @@
         },
         "greeting": {"type": "string", "minLength": 10},
         "favoriteFruit": {"type": "string", "enum": ["strawberry", "banana", "apple"]}
-    }
+    },
+    "required": [
+        "index",
+        "guid",
+        "isActive",
+        "balance",
+        "company",
+        "registered",
+        "range",
+        "_id",
+        "picture",
+        "age",
+        "eyeColor",
+        "name",
+        "phone",
+        "address",
+        "about",
+        "latitude",
+        "longitude",
+        "tags",
+        "friends",
+        "greeting",
+        "favoriteFruit"
+    ],
+    "additionalProperties": false
 }
