@@ -10,7 +10,8 @@ import json
 import helper
 
 # todo: write docstrings in all modules
-# todo: fix bug in stupid schema because it is not working
+# ! schema not working = validation of tags array (length) has bugs
+# todo: fix bugs in stupid schema
 
 app = Flask(__name__)
 api = Api(app)
