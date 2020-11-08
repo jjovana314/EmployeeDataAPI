@@ -6,11 +6,12 @@ from exception_messages import (
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from json import dumps, loads
+from copy import copy
 import re
 import validators
 
-
 # todo: write documentation
+
 
 def validate_schema(schema: dict, data: dict) -> None:
     """ JSON schema validation.
@@ -144,15 +145,16 @@ def generate_data(
     return all_personal_dicts, all_company_dicts
 
 
-def id_key_config(data: list) -> list:
+def id_key_config(data: list):
     data_return = list()
     dict_return = dict()
 
     for dict_ in data:
-        for key, value in dict_.items():
-            if key == "_id":
-                dict_return["id"] = value
-            else:
-                dict_return[key] = value
+        id_temp = dict_["_id"]
+
+        dict_return = copy(dict_)
+        del dict_return["_id"]
+        dict_return["id"] = id_temp
         data_return.append(dict_return)
+
     return data_return
