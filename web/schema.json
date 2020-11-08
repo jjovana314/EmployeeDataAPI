@@ -14,7 +14,8 @@
             "properties": {
                 "first": {"type": "string", "minLength": 2},
                 "last": {"type": "string", "minLength": 2}
-            }
+            },
+            "additionalProperties": false
         },
         "company": {"type": "string", "minLength": 2},
         "email": {"type": "string", "minLength": 10},
@@ -27,19 +28,18 @@
         "tags": {
             "type": "array",
             "items": {
-                "type": "string",
-                "minItems": 5,
-                "maxItems": 5
+                "type": "string"
             },
+            "minItems": 5,
             "additionalItems": false
         },
         "range": {
             "type": "array",
             "items": {
-                "type": "number",
-                "minItems": 10,
-                "maxItems": 10
+                "type": "number"
             },
+            "minItems": 10,
+            "maxItems": 10,
             "additionalItems": false
         },
         "friends": {
@@ -63,7 +63,7 @@
         "company",
         "registered",
         "range",
-        "_id",
+        "id",
         "picture",
         "age",
         "eyeColor",
