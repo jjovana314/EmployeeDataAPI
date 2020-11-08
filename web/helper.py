@@ -35,7 +35,18 @@ def validate_schema(schema: dict, data: dict) -> None:
             # create appropriate message for user
             # if there is exception occured
             if value in ex_str:
-                raise schema_exceptions[idx](error_messages[idx])
+                raise schema_exceptions[idx](error_messages[idx], ex_str)
+
+
+def name_validation(value: dict) -> dict:
+    first = value.get("first", None)
+    last = value.get("last", None)
+    if not(first and last):
+        raise ValueError(
+            "'name' must contain 'first' and 'last' fields",
+            HTTPStatus.BAD_REQUEST
+        )
+    return value
 
 
 def balance_validation(value: str) -> bool:
