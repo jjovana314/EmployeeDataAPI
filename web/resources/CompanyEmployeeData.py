@@ -6,14 +6,14 @@ from datetime import datetime
 class CompanyEmployeeData:
     def __init__(
         self,
-        id_: str,
         index: int,
         guid: str,
         is_active: bool,
         balance: str,
         company: str,
         registered: str,
-        range_: list
+        range_: list,
+        id_: str
     ):
         self._id = id_
         self._index = index
