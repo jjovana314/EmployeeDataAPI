@@ -48,7 +48,7 @@ personal_employee_keys = [
     "tags",
     "friends",
     "greeting",
-    "favoriteFruit",
+    "favoriteFruit"
 ]
 
 
@@ -58,7 +58,10 @@ class Employee(Resource):
         global company_employee_keys
         global personal_employee_keys
         # todo: separate this into small functions
-        data = helper.id_key_config(data_json)
+        try:
+            data = helper.id_key_config(data_json)
+        except KeyError:
+            return jsonify({"message": "please enter '_id' key", "code": HTTPStatus.BAD_REQUEST})
 
         for dictionary in data:
             try:
