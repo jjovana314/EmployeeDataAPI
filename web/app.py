@@ -25,7 +25,6 @@ with open("schema.json", "r") as f:
     schema = json.load(f)
 
 company_employee_keys = [
-    "id",
     "index",
     "guid",
     "isActive",
@@ -33,6 +32,7 @@ company_employee_keys = [
     "company",
     "registered",
     "range",
+    "id"
 ]
 
 personal_employee_keys = [
@@ -54,17 +54,17 @@ personal_employee_keys = [
 
 class Employee(Resource):
     def post(self):
-        data = request.get_json()
+        data_json = request.get_json()
         global company_employee_keys
         global personal_employee_keys
         # todo: separate this into small functions
-        data = helper.id_key_config(data)
+        data = helper.id_key_config(data_json)
 
         for dictionary in data:
             try:
                 helper.validate_schema(schema, dictionary)
             except SchemaError as ex:
-                return jsonify({"message": ex, "code": HTTPStatus.BAD_REQUEST})
+                return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
             else:
                 company_data = []
                 personal_data = []
