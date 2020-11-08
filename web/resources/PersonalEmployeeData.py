@@ -19,7 +19,7 @@ class PersonalEmployeeData:
         greeting: str,
         favorite_fruit: str
     ):
-        self._name = name
+        self.name = name
 
         self.phone = phone
         self.address = address
@@ -40,6 +40,10 @@ class PersonalEmployeeData:
     @property
     def name(self) -> str:
         return self._name
+
+    @name.setter
+    def name(self, value: dict) -> None:
+        self._name = helper.name_validation(value)
 
     @property
     def age(self) -> int:
