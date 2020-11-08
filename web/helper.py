@@ -86,7 +86,9 @@ def address_validation(value: str) -> str:
     has_numbers = bool(re.search(r"\d", value))
     # validation is based on checking if there are numbers in address
     if not has_numbers:
-        raise ValueError("address is not valid, please enter numbers in it", HTTPStatus.BAD_REQUEST)
+        raise ValueError(
+            "address is not valid, please enter numbers in it", HTTPStatus.BAD_REQUEST
+        )
     return value
 
 
