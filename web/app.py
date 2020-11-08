@@ -67,7 +67,12 @@ class Employee(Resource):
             try:
                 helper.validate_schema(schema, dictionary)
             except SchemaError as ex:
-                return jsonify({"message": ex.args[0], "code": HTTPStatus.BAD_REQUEST})
+                return jsonify(
+                    {
+                        "message": f"{ex.args[0]}\n{ex.args[1]}",
+                        "code": HTTPStatus.BAD_REQUEST
+                    }
+                )
             else:
                 company_data = []
                 personal_data = []
