@@ -7,6 +7,7 @@ from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from json import dumps, loads
 from copy import copy
+from datetime import datetime
 import re
 import validators
 
@@ -139,6 +140,15 @@ def latitude_longitude_validation(value: str, caller_name: str) -> str:
         raise ValueError(f"'{caller_name}' is not valid", HTTPStatus.BAD_REQUEST)
     else:
         return value
+
+
+def register_validation(value: str) -> datetime
+    try:
+        registered = datetime.strptime(value, "%A, %B %d, %Y %I:%M %p")
+    except ValueError:
+        raise ValueError("invalid date format", HTTPStatus.BAD_REQUEST) from None
+    else:
+        return registered
 
 
 def generate_data(
