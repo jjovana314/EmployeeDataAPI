@@ -1,6 +1,5 @@
 from helper import balance_validation
 from http import HTTPStatus
-from datetime import datetime
 
 
 class CompanyEmployeeData:
@@ -58,10 +57,7 @@ class CompanyEmployeeData:
 
     @registered.setter
     def registered(self, value: str):
-        try:
-            self._registered = datetime.strptime(value, "%A, %B %d, %Y %I:%M %p")
-        except ValueError:
-            raise ValueError("invalid date format", HTTPStatus.BAD_REQUEST) from None
+        self._registered = helper.register_validation(value)
 
     @property
     def range_(self):
