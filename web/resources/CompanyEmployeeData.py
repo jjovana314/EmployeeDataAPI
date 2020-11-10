@@ -1,4 +1,4 @@
-from helper import balance_validation
+from helper import balance_validation, register_validation
 from http import HTTPStatus
 
 
@@ -57,7 +57,7 @@ class CompanyEmployeeData:
 
     @registered.setter
     def registered(self, value: str):
-        self._registered = helper.register_validation(value)
+        self._registered = register_validation(value)
 
     @property
     def range_(self):
