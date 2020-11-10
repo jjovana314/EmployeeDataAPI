@@ -142,7 +142,7 @@ def latitude_longitude_validation(value: str, caller_name: str) -> str:
         return value
 
 
-def register_validation(value: str) -> datetime
+def register_validation(value: str) -> datetime:
     try:
         registered = datetime.strptime(value, "%A, %B %d, %Y %I:%M %p")
     except ValueError:
