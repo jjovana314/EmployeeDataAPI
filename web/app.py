@@ -70,7 +70,7 @@ class Employee(Resource):
             except SchemaError as ex:
                 return jsonify(
                     {
-                        "message": f"{ex.args[0]}\n{ex.args[1]}",
+                        "message": ex.args[0],
                         "code": HTTPStatus.BAD_REQUEST
                     }
                 )
