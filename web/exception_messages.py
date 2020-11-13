@@ -7,7 +7,9 @@ schema_errors = [
     "Failed validating 'minLength' in schema",
     "Failed validating 'maxLength' in schema",
     "Failed validating 'minimum' in schema",
-    "Failed validating 'maximum' in schema"
+    "Failed validating 'maximum' in schema",
+    "Failed validating 'minItems' in schema",
+    "Failed validating 'maxItems' in schema"
 ]
 
 error_messages = [
@@ -16,7 +18,9 @@ error_messages = [
     "String length is less then minimum",
     "String length exceeded maximum",
     "Value is less then minimum",
-    "Value is greater then maximum"
+    "Value is greater then maximum",
+    "Array has less items than minimum",
+    "Array has more items than maximum"
 ]
 
 schema_exceptions = [
@@ -24,6 +28,8 @@ schema_exceptions = [
     exceptions.RequiredSchemaError,
     exceptions.MinLengthSchemaError,
     exceptions.MaxLengthSchemaError,
+    exceptions.MinimumSchemaError,
+    exceptions.MaximumSchemaError,
     exceptions.MinimumSchemaError,
     exceptions.MaximumSchemaError
 ]
