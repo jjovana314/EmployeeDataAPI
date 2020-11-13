@@ -31,7 +31,7 @@
                 "type": "string"
             },
             "minItems": 5,
-            "additionalItems": false
+            "maxItems": 5
         },
         "range": {
             "type": "array",
@@ -39,8 +39,7 @@
                 "type": "number"
             },
             "minItems": 10,
-            "maxItems": 10,
-            "additionalItems": false
+            "maxItems": 10
         },
         "friends": {
             "type": "array",
