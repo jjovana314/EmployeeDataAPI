@@ -36,7 +36,7 @@ def validate_schema(schema: dict, data: dict) -> None:
             # create appropriate message for user
             # if there is exception occured
             if value in ex_str:
-                raise schema_exceptions[idx](error_messages[idx], ex_str)
+                raise schema_exceptions[idx](error_messages[idx])
 
 
 def name_validation(value: dict) -> dict:
