@@ -206,6 +206,7 @@ def email_validation(value: str, company_name: str) -> str:
             'johndoe@schneider.org' is valid if company name is Schneider
     """
     company_lower = company_name.lower()
+    local_part = value.split("@")[0]
 
     email_companies = _email_generator(
         company_lower,
@@ -214,14 +215,17 @@ def email_validation(value: str, company_name: str) -> str:
         "com",
         "io",
         "biz",
-        "tv"
+        "tv",
+        "me",
+        "info",
+        "net",
+        "us"
     )
 
-    if any(email_companies):
-        # if any of items from email_generator list is True (not None)
-        # email is valid because it match to company name and has
-        # special signs and domain
-        return value
+    for email in email_companies:
+        email = local_part + email
+        if email == value:
+            return value
 
     raise ValueError(
         (
