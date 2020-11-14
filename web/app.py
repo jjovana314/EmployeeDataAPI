@@ -10,8 +10,7 @@ import json
 import helper
 
 # todo: write docstrings in all modules
-# ! schema not working - validation of tags array (length) has bugs
-# todo: fix bugs in stupid schema
+# todo: separate post method into small functions
 
 app = Flask(__name__)
 api = Api(app)
@@ -58,7 +57,7 @@ class Employee(Resource):
         data_json = request.get_json()
         global company_employee_keys
         global personal_employee_keys
-        # todo: separate this into small functions
+
         try:
             data = helper.id_key_config(data_json)
         except KeyError:
