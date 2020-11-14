@@ -1,4 +1,5 @@
 """ Validator and helper for employee data. """
+
 from http import HTTPStatus
 from exception_messages import (
     schema_errors, error_messages, schema_exceptions
@@ -40,6 +41,25 @@ def validate_schema(schema: dict, data: dict) -> None:
 
 
 def name_validation(value: dict) -> dict:
+    """ Employee's name validation.
+
+    Arguments:
+        value {dict}: dictionary with first and last name
+
+    Raises:
+        ValueError: if dictionary is not valid
+
+    Returns:
+        value {dict}: if dictionary is valid
+
+    Note:
+        example:
+            {'first': 'John', 'last': 'Doe'} is valid
+
+            {'first': 'John'} is not valid
+            {'last': 'Doe'} is not valid
+            {'f': 'John', 'l': 'Doe'} is not valid
+    """
     first = value.get("first", None)
     last = value.get("last", None)
     if not(first and last):
@@ -51,6 +71,27 @@ def name_validation(value: dict) -> dict:
 
 
 def balance_validation(value: str) -> bool:
+    """ Employee's balance validation.
+
+    Arguments:
+        value {str}: balance in string format (dollar sign at the beginning)
+
+    Raises:
+        ValueError: if balance is not valid
+
+    Returns:
+        value_num {float}: balance value in float format if value is valid
+
+    Note:
+        example:
+            '$1,234.12' is valid
+            '$3,000.00' is valid
+            '$5,127' is valid
+
+            '1,234.12' is not valid
+            '€1,456.00' is not valid
+            '$123456' is not valid
+    """
     if value[0] != "$":
         # dollar is expected currency
         raise ValueError(
@@ -64,10 +105,27 @@ def balance_validation(value: str) -> bool:
     except ValueError:
         raise ValueError("balance is not valid", HTTPStatus.BAD_REQUEST)
     else:
-        return value
+        return value_num
 
 
 def phone_validation(value: str) -> str:
+    """ Eployee's phone number validation.
+
+    Arguments:
+        value {str}: phone number for validation
+
+    Raises:
+        ValueError: if phone number is not valid
+
+    Returns:
+        value {str}: phone number if phone number is valid
+
+    Note:
+        if call number is not +1 than phone number is not valid
+        example:
+            '+1 (234) 456-7890' is valid
+            '+1 (234)456-7890' is valid
+    """
     for num in value:
         if num == " ":
             # we expect that phone number start with call number
@@ -88,6 +146,17 @@ def phone_validation(value: str) -> str:
 
 
 def picture_validation(value: str) -> str:
+    """ Employee's picture validation.
+
+    Arguments:
+        value {str}: picture's url
+
+    Raises:
+        ValueError: if url is not valid
+
+    Returns:
+        value {str}: picture's url if url is valid
+    """
     valid = validators.url(value)
     if valid == True:
         return value
@@ -95,6 +164,20 @@ def picture_validation(value: str) -> str:
 
 
 def address_validation(value: str) -> str:
+    """ Employee's address validation.
+
+    Arguments:
+        value {str}: address for validation
+
+    Raises:
+        ValueError: if address is not valid
+
+    Returns:
+        value {str}: address if addres is valid
+
+    Note:
+        address is valid if it has numbers in it
+    """
     has_numbers = bool(re.search(r"\d", value))
     # validation is based on checking if there are numbers in address
     if not has_numbers:
@@ -105,9 +188,26 @@ def address_validation(value: str) -> str:
 
 
 def email_validation(value: str, company_name: str) -> str:
+    """ Employee's email address validation.
+
+    Arguments:
+        value {str}: email address for validation
+        company_name {str}: company name for current employee
+
+    Raises:
+        ValueError: if email address is not valid
+
+    Returns:
+        value {str}: email address if email address is valid
+
+    Note:
+        examples:
+            'john.doe@microsoft.com' is valid if company name is Microsoft
+            'johndoe@schneider.org' is valid if company name is Schneider
+    """
     company_lower = company_name.lower()
 
-    email_companies = email_generator(
+    email_companies = _email_generator(
         company_lower,
         "org",
         "co.uk",
@@ -118,6 +218,9 @@ def email_validation(value: str, company_name: str) -> str:
     )
 
     if any(email_companies):
+        # if any of items from email_generator list is True (not None)
+        # email is valid because it match to company name and has
+        # special signs and domain
         return value
 
     raise ValueError(
@@ -129,11 +232,38 @@ def email_validation(value: str, company_name: str) -> str:
     )
 
 
-def email_generator(company_lower: str, *args) -> list:
+def _email_generator(company_lower: str, *args) -> list:
+    """ Generate email addres by given company name and domain (without local part).
+
+    Arguments:
+        company_lower {str}: companyu name in lower case
+        args: additional arguments (domains)
+
+    Returns:
+        list with valid email address (without local part)
+
+    Note:
+        example:
+            company_lower = 'fiat'
+            args[0] = '.com'
+            list_return = ['@fiat.com']
+    """
     return ["@" + company_lower + "." + arg for arg in args]
 
 
 def latitude_longitude_validation(value: str, caller_name: str) -> str:
+    """ Validation for latitude and longitude.
+
+    Arguments:
+        value {str}: value for latitude and longitude
+        caller_name {str}: name of method that is callig function
+
+    Raises:
+        ValueError: if latitude or longitude is not valid
+
+    Returns:
+        value {float}: if latitude or longitude is valid (can be converted to float)
+    """
     try:
         value = float(value)
     except ValueError:
@@ -143,6 +273,17 @@ def latitude_longitude_validation(value: str, caller_name: str) -> str:
 
 
 def register_validation(value: str) -> datetime:
+    """ Employee's register date validation.
+
+    Arguments:
+        value {str}: date in string format
+
+    Raises:
+        ValueError: if date format is invalid
+
+    Returns:
+        register date converted to datetime format
+    """
     try:
         registered = datetime.strptime(value, "%A, %B %d, %Y %I:%M %p")
     except ValueError:
@@ -151,10 +292,46 @@ def register_validation(value: str) -> datetime:
         return registered
 
 
+def id_key_config(data: list) -> list:
+    """ Configuration for id key.
+
+    Arguments:
+        data {list}: all data from server
+
+    Returns:
+        all data with modified id key ('id' instead of '_id')
+    """
+    data_return = list()
+    dict_return = dict()
+
+    for dict_ in data:
+        id_temp = dict_["_id"]
+
+        dict_return = copy(dict_)
+        # removing '_id' from shallow copy
+        del dict_return["_id"]
+        dict_return["id"] = id_temp
+        data_return.append(dict_return)
+
+    return data_return
+
+
 def generate_data(
     personal_keys: list, company_keys: list,
     personal_object: object, company_object: object
 ) -> tuple:
+    """ Generate all data.
+
+    Arguments:
+        personal_keys {list}: all valid personal data keys
+        company_keys {list}: all valid company data keys
+        personal_object {object}: PersonalEmployeeData instance
+        company_object {object}: CompanyEmployeeData instance
+
+    Returns:
+        tuple with two dictionaries:
+        first with all personal data, second with all company data
+    """
     personal_values = personal_object.return_values_personal()
     company_values = company_object.return_values_company()
     
@@ -166,18 +343,3 @@ def generate_data(
     all_personal_dicts.append(personal_dicts)
     all_company_dicts.append(company_dicts)
     return all_personal_dicts, all_company_dicts
-
-
-def id_key_config(data: list):
-    data_return = list()
-    dict_return = dict()
-
-    for dict_ in data:
-        id_temp = dict_["_id"]
-
-        dict_return = copy(dict_)
-        del dict_return["_id"]
-        dict_return["id"] = id_temp
-        data_return.append(dict_return)
-
-    return data_return
