@@ -3,6 +3,7 @@ from http import HTTPStatus
 
 
 class PersonalEmployeeData:
+    """ Personal employee's data. """
     def __init__(
         self,
         picture: str,
@@ -19,6 +20,22 @@ class PersonalEmployeeData:
         greeting: str,
         favorite_fruit: str
     ):
+        """
+        Arguments:
+            picture {str}: picture's url
+            age {str}: employee's age
+            eye_color {str}: employee's eye color
+            name {str}: employee's name (first and last)
+            phone {str}: employee's phone number
+            address {str}: employee's address
+            about {str}: some employee's data
+            latitude {str}: coordinates of employee's city
+            longitude {str}: coordinates of employee's city
+            tags {list}: employee's labels
+            friends {list}: list of employee's friends
+            greeting {str}: employee's greeting message
+            favorite_fruit {str}: employee's favorite fruit
+        """
         self.name = name
 
         self.phone = phone
@@ -39,88 +56,174 @@ class PersonalEmployeeData:
 
     @property
     def name(self) -> str:
+        """
+        Returns:
+            str: employee's name
+        """
         return self._name
 
     @name.setter
     def name(self, value: dict) -> None:
+        """
+        Arguments:
+            value {dict}: employee's first and last name
+        """
         self._name = helper.name_validation(value)
 
     @property
     def age(self) -> int:
+        """
+        Returns:
+            int: employee's age
+        """
         return self._age
 
     @property
     def eye_color(self) -> str:
+        """
+        Returns:
+            str: employee's eye color
+        """
         return self._eye_color
 
     @property
     def about(self) -> str:
+        """
+        Returns:
+            str: data about employee
+        """
         return self._about
 
     @property
     def tags(self) -> list:
+        """
+        Returns:
+            list: employee's tags
+        """
         return self._tags
 
     @property
     def friends(self) -> list:
+        """
+        Returns:
+            list: employee's friend's list ( if he has one 3:) )
+        """
         return self._friends
 
     @property
     def greeting(self) -> str:
+        """
+        Returns:
+            str: employee's greeting message
+        """
         return self._greeting
 
     @property
     def favorite_fruit(self) -> str:
+        """
+        Returns:
+            str: employee's favorite fruit
+        """
         return self._favorite_fruit
 
     @property
     def phone(self) -> str:
+        """
+        Returns:
+            str: employee's phone number
+        """
         return self._phone
 
     @phone.setter
     def phone(self, value: str) -> None:
+        """
+        Arguments:
+            value {str}: employee's phone number
+        """
         self._phone = helper.phone_validation(value)
 
     @property
     def address(self) -> str:
+        """
+        Returns:
+            str: employee's address
+        """
         return self._address
 
     @address.setter
     def address(self, value: str) -> None:
+        """
+        Arguments:
+            value {str}: employee's address
+        """
         self._address = helper.address_validation(value)
 
     @property
     def email(self) -> str:
+        """
+        Returns:
+            str: employee's email address
+        """
         return self._email
 
     def email_set(self, value: str, company_name: str) -> None:
+        """
+        Arguments:
+            value {str}: employee's email address
+            company_name {str}: employee's company name
+        """
         self._email = helper.email_validation(value, company_name)
 
     @property
     def picture(self) -> str:
+        """
+        Returns:
+            str: url of employee's picture
+        """
         return self._picture
 
     @picture.setter
     def picture(self, value: str) -> None:
+        """
+        Arguments:
+            value {str}: url of employee's picture
+        """
         self._picture = helper.picture_validation(value)
 
     @property
     def latitude(self) -> str:
+        """
+        Returns:
+            str: coordinates of employee's city
+        """
         return self._latitude
 
     @latitude.setter
     def latitude(self, value: str) -> None:
+        """
+        Arguments:
+            value {str}: coordinates of employee's city
+        """
         self._latitude = helper.latitude_longitude_validation(value, "latitude")
 
     @property
     def longitude(self) -> str:
+        """
+        Returns:
+            str: coordinates of employee's city
+        """
         return self._longitude
 
     @longitude.setter
     def longitude(self, value: str) -> None:
+        """
+        Arguments:
+            value {str}: coordinates of employee's city
+        """
         self._longitude = helper.latitude_longitude_validation(value, "longitude")
 
     def return_values_personal(self):
+        """ Return list with all personal values from class instance. """
         return [
             self.name,
             self.phone,
