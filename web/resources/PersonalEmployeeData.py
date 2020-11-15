@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 
 class PersonalEmployeeData:
-    """ Personal employee's data. """
+    """ Personal employee data. """
     def __init__(
         self,
         picture: str,
@@ -23,18 +23,18 @@ class PersonalEmployeeData:
         """
         Arguments:
             picture {str}: picture's url
-            age {str}: employee's age
-            eye_color {str}: employee's eye color
-            name {str}: employee's name (first and last)
-            phone {str}: employee's phone number
-            address {str}: employee's address
-            about {str}: some employee's data
-            latitude {str}: coordinates of employee's city
-            longitude {str}: coordinates of employee's city
-            tags {list}: employee's labels
-            friends {list}: list of employee's friends
-            greeting {str}: employee's greeting message
-            favorite_fruit {str}: employee's favorite fruit
+            age {str}: employee age
+            eye_color {str}: employee eye color
+            name {str}: employee name (first and last)
+            phone {str}: employee phone number
+            address {str}: employee address
+            about {str}: some employee data
+            latitude {str}: coordinates of employee city
+            longitude {str}: coordinates of employee city
+            tags {list}: employee labels
+            friends {list}: list of employee friends
+            greeting {str}: employee greeting message
+            favorite_fruit {str}: employee favorite fruit
         """
         self.name = name
 
@@ -58,7 +58,7 @@ class PersonalEmployeeData:
     def name(self) -> str:
         """
         Returns:
-            str: employee's name
+            str: employee name
         """
         return self._name
 
@@ -66,7 +66,7 @@ class PersonalEmployeeData:
     def name(self, value: dict) -> None:
         """
         Arguments:
-            value {dict}: employee's first and last name
+            value {dict}: employee first and last name
         """
         self._name = helper.name_validation(value)
 
@@ -74,7 +74,7 @@ class PersonalEmployeeData:
     def age(self) -> int:
         """
         Returns:
-            int: employee's age
+            int: employee age
         """
         return self._age
 
@@ -82,7 +82,7 @@ class PersonalEmployeeData:
     def eye_color(self) -> str:
         """
         Returns:
-            str: employee's eye color
+            str: employee eye color
         """
         return self._eye_color
 
@@ -98,7 +98,7 @@ class PersonalEmployeeData:
     def tags(self) -> list:
         """
         Returns:
-            list: employee's tags
+            list: employee tags
         """
         return self._tags
 
@@ -106,7 +106,7 @@ class PersonalEmployeeData:
     def friends(self) -> list:
         """
         Returns:
-            list: employee's friend's list ( if he has one 3:) )
+            list: employee friend's list ( if he has one 3:) )
         """
         return self._friends
 
@@ -114,7 +114,7 @@ class PersonalEmployeeData:
     def greeting(self) -> str:
         """
         Returns:
-            str: employee's greeting message
+            str: employee greeting message
         """
         return self._greeting
 
@@ -122,7 +122,7 @@ class PersonalEmployeeData:
     def favorite_fruit(self) -> str:
         """
         Returns:
-            str: employee's favorite fruit
+            str: employee favorite fruit
         """
         return self._favorite_fruit
 
@@ -130,7 +130,7 @@ class PersonalEmployeeData:
     def phone(self) -> str:
         """
         Returns:
-            str: employee's phone number
+            str: employee phone number
         """
         return self._phone
 
@@ -138,7 +138,7 @@ class PersonalEmployeeData:
     def phone(self, value: str) -> None:
         """
         Arguments:
-            value {str}: employee's phone number
+            value {str}: employee phone number
         """
         self._phone = helper.phone_validation(value)
 
@@ -146,7 +146,7 @@ class PersonalEmployeeData:
     def address(self) -> str:
         """
         Returns:
-            str: employee's address
+            str: employee address
         """
         return self._address
 
@@ -154,7 +154,7 @@ class PersonalEmployeeData:
     def address(self, value: str) -> None:
         """
         Arguments:
-            value {str}: employee's address
+            value {str}: employee address
         """
         self._address = helper.address_validation(value)
 
@@ -162,15 +162,15 @@ class PersonalEmployeeData:
     def email(self) -> str:
         """
         Returns:
-            str: employee's email address
+            str: employee email address
         """
         return self._email
 
     def email_set(self, value: str, company_name: str) -> None:
         """
         Arguments:
-            value {str}: employee's email address
-            company_name {str}: employee's company name
+            value {str}: employee email address
+            company_name {str}: employee company name
         """
         self._email = helper.email_validation(value, company_name)
 
@@ -178,7 +178,7 @@ class PersonalEmployeeData:
     def picture(self) -> str:
         """
         Returns:
-            str: url of employee's picture
+            str: url of employee picture
         """
         return self._picture
 
@@ -186,7 +186,7 @@ class PersonalEmployeeData:
     def picture(self, value: str) -> None:
         """
         Arguments:
-            value {str}: url of employee's picture
+            value {str}: url of employee picture
         """
         self._picture = helper.picture_validation(value)
 
@@ -194,7 +194,7 @@ class PersonalEmployeeData:
     def latitude(self) -> str:
         """
         Returns:
-            str: coordinates of employee's city
+            str: coordinates of employee city
         """
         return self._latitude
 
@@ -202,7 +202,7 @@ class PersonalEmployeeData:
     def latitude(self, value: str) -> None:
         """
         Arguments:
-            value {str}: coordinates of employee's city
+            value {str}: coordinates of employee city
         """
         self._latitude = helper.latitude_longitude_validation(value, "latitude")
 
@@ -210,7 +210,7 @@ class PersonalEmployeeData:
     def longitude(self) -> str:
         """
         Returns:
-            str: coordinates of employee's city
+            str: coordinates of employee city
         """
         return self._longitude
 
@@ -218,7 +218,7 @@ class PersonalEmployeeData:
     def longitude(self, value: str) -> None:
         """
         Arguments:
-            value {str}: coordinates of employee's city
+            value {str}: coordinates of employee city
         """
         self._longitude = helper.latitude_longitude_validation(value, "longitude")
 
