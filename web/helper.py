@@ -12,8 +12,6 @@ from datetime import datetime
 import re
 import validators
 
-# todo: write documentation
-
 
 def validate_schema(schema: dict, data: dict) -> None:
     """ JSON schema validation.
