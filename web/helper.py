@@ -13,6 +13,9 @@ import re
 import validators
 
 
+# todo: fix bug in phone_validation
+
+
 def validate_schema(schema: dict, data: dict) -> None:
     """ JSON schema validation.
 
@@ -226,10 +229,7 @@ def email_validation(value: str, company_name: str) -> str:
             return value
 
     raise ValueError(
-        (
-            f"email you sent is not valid, you sent {value}",
-            f" company is {company_name}"
-        ),
+        f"email you sent is not valid, you sent {value}, company is {company_name}",
         HTTPStatus.BAD_REQUEST
     )
 
