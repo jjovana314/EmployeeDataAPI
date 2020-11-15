@@ -121,10 +121,10 @@ def phone_validation(value: str) -> str:
         value {str}: phone number if phone number is valid
 
     Note:
-        if call number is not +1 than phone number is not valid
         example:
             '+1 (234) 456-7890' is valid
             '+1 (234)456-7890' is valid
+            '+12 (234) 456-7890' is valid
     """
     for num in value:
         if num == " ":
@@ -136,7 +136,7 @@ def phone_validation(value: str) -> str:
     phone_number = value[index_call_number:]
 
     # format of phone number without call number
-    regex = r"\(\w{3}\)\w{3}-\w{4}"
+    regex = re.compile("\(\d{3}\)\d{3}-\d{4}")
 
     # removing all spaces
     if re.search(regex, value[index_call_number:].replace(" ", "")):
