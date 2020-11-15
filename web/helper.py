@@ -20,8 +20,8 @@ def validate_schema(schema: dict, data: dict) -> None:
     """ JSON schema validation.
 
     Arguments:
-        schema {dict} -- valid dictionary
-        data {dict} -- dictionary for validation
+        schema {dict}: valid dictionary
+        data {dict}: dictionary for validation
 
     Raises:
         SchemaError: if data dictionary is not valid
@@ -126,6 +126,8 @@ def phone_validation(value: str) -> str:
             '+1 (234) 456-7890' is valid
             '+1 (234)456-7890' is valid
             '+12 (234) 456-7890' is valid
+
+            '+1 234 456-7890' is not valid
     """
     for num in value:
         if num == " ":
