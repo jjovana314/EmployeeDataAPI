@@ -19,7 +19,7 @@
         },
         "company": {"type": "string", "minLength": 2},
         "email": {"type": "string", "minLength": 10},
-        "phone": {"type": "string", "minLength": 15},
+        "phone": {"type": "string", "minLength": 17, "maxLength": 20},
         "address": {"type": "string", "minLength": 20},
         "about": {"type": "string", "minLenth": 30},
         "registered": {"type": "string", "minLenth": 20},
