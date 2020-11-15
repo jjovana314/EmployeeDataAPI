@@ -39,7 +39,7 @@ def validate_schema(schema: dict, data: dict) -> None:
 
 
 def name_validation(value: dict) -> dict:
-    """ Employee's name validation.
+    """ Employee name validation.
 
     Arguments:
         value {dict}: dictionary with first and last name
@@ -69,7 +69,7 @@ def name_validation(value: dict) -> dict:
 
 
 def balance_validation(value: str) -> bool:
-    """ Employee's balance validation.
+    """ Employee balance validation.
 
     Arguments:
         value {str}: balance in string format (dollar sign at the beginning)
@@ -107,7 +107,7 @@ def balance_validation(value: str) -> bool:
 
 
 def phone_validation(value: str) -> str:
-    """ Eployee's phone number validation.
+    """ Eployee phone number validation.
 
     Arguments:
         value {str}: phone number for validation
@@ -144,7 +144,7 @@ def phone_validation(value: str) -> str:
 
 
 def picture_validation(value: str) -> str:
-    """ Employee's picture validation.
+    """ Employee picture validation.
 
     Arguments:
         value {str}: picture's url
@@ -162,7 +162,7 @@ def picture_validation(value: str) -> str:
 
 
 def address_validation(value: str) -> str:
-    """ Employee's address validation.
+    """ Employee address validation.
 
     Arguments:
         value {str}: address for validation
@@ -186,7 +186,7 @@ def address_validation(value: str) -> str:
 
 
 def email_validation(value: str, company_name: str) -> str:
-    """ Employee's email address validation.
+    """ Employee email address validation.
 
     Arguments:
         value {str}: email address for validation
@@ -275,7 +275,7 @@ def latitude_longitude_validation(value: str, caller_name: str) -> str:
 
 
 def register_validation(value: str) -> datetime:
-    """ Employee's register date validation.
+    """ Employee register date validation.
 
     Arguments:
         value {str}: date in string format
