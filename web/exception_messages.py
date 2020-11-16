@@ -1,3 +1,5 @@
+""" Excaption messages (in lists). """
+
 import exceptions
 
 
