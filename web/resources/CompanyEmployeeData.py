@@ -1,8 +1,10 @@
 from helper import balance_validation, register_validation
 from http import HTTPStatus
+from datetime import datetime
 
 
 class CompanyEmployeeData:
+    """ Company employee data. """
     def __init__(
         self,
         index: int,
@@ -14,6 +16,17 @@ class CompanyEmployeeData:
         range_: list,
         id_: str
     ):
+        """
+        Arguments:
+            index {int}: employee index
+            guid {str}: globally unique identifier
+            is_active {bool}: True if employee is currently active, False otherwise
+            balance {str}: balance on employee account
+            company {str}: employee company name
+            registered {str}: string format date of employment
+            range_ {list}: employee range
+            id_ {str}: employee id
+        """
         self._id = id_
         self._index = index
         self._guid = guid
@@ -24,46 +37,90 @@ class CompanyEmployeeData:
         self._range = range_
 
     @property
-    def id_(self):
+    def id_(self) -> str:
+        """
+        Returns:
+            str: employee id
+        """
         return self._id
 
     @property
-    def index(self):
+    def index(self) -> int:
+        """
+        Returns:
+            int: employee index
+        """
         return self._index
 
     @property
-    def guid(self):
+    def guid(self) -> str:
+        """
+        Returns:
+            str: globally unique identifier
+        """
         return self._guid
 
     @property
-    def is_active(self):
+    def is_active(self) -> bool:
+        """
+        Returns:
+            bool: True if employee is currently active, False otherwise
+        """
         return self._is_active
 
     @property
-    def balance(self):
+    def balance(self) -> float:
+        """
+        Returns:
+            float: converted employee balance
+        """
         return self._balance
 
     @balance.setter
     def balance(self, value: str):
+        """
+        Arguments:
+            value {str}: employee balance value (string format)
+        """
         self._balance = balance_validation(value)
 
     @property
-    def registered(self):
+    def registered(self) -> datetime:
+        """
+        Returns:
+            datetime: date of employment
+        """
         return self._registered
 
     @property
-    def company(self):
+    def company(self) -> str:
+        """
+        Returns:
+            str: company name
+        """
         return self._company
 
     @registered.setter
     def registered(self, value: str):
+        """
+        Arguments:
+            value {str}: string format date of employment
+        """
         self._registered = register_validation(value)
 
     @property
-    def range_(self):
+    def range_(self) -> list:
+        """
+        Returns:
+            list: employee range
+        """
         return self._range
 
-    def return_values_company(self):
+    def return_values_company(self) -> list:
+        """
+        Returns:
+            list: list with all values for current instance
+        """
         return [
             self.id_,
             self.index,
