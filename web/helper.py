@@ -320,6 +320,32 @@ def id_key_config(data: list) -> list:
     return data_return
 
 
+def find_validate_email(dictionary: dict, personal_object: object) -> tuple:
+    for key, value in dictionary.items():
+        if key == "email":
+            try:
+                personal_object.email_set(value, dictionary.get("company"))
+            except ValueError as ex:
+                return False, ex.args
+    return True, None
+
+
+def company_personal_lists_generator(
+    dictionary: dict, company_employee_keys: list,
+    personal_employee_keys: list
+) -> tuple:
+    company_data = []
+    personal_data = []
+
+    for key in dictionary.keys():
+        # keys validation
+        if key in company_employee_keys:
+            company_data.append(dictionary.get(key))
+        if key in personal_employee_keys:
+            personal_data.append(dictionary.get(key))
+    return company_data, personal_data
+
+
 def generate_data(
     personal_keys: list, company_keys: list,
     personal_object: object, company_object: object
