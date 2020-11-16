@@ -321,6 +321,17 @@ def id_key_config(data: list) -> list:
 
 
 def find_validate_email(dictionary: dict, personal_object: object) -> tuple:
+    """ Find email value and call function for validation.
+
+    Arguments:
+        dictionary {dict}: dictionary with employee data
+        personal_object {object}: PersonalEmployeeData instance
+
+    Returns:
+        tuple: boolean value (True if data is valid, False otherwise) and
+               exception arguments if ValueError exception occures or
+               None if data is valid
+    """
     for key, value in dictionary.items():
         if key == "email":
             try:
@@ -331,9 +342,18 @@ def find_validate_email(dictionary: dict, personal_object: object) -> tuple:
 
 
 def company_personal_lists_generator(
-    dictionary: dict, company_employee_keys: list,
-    personal_employee_keys: list
+    dictionary: dict, company_employee_keys: list, personal_employee_keys: list
 ) -> tuple:
+    """ Generate company and personal lists.
+
+    Arguments:
+        dictionary {dict}: dictionary with employee data
+        company_employee_keys {list}: all valid employee data keys
+        personal_employee_keys {list}: all valid personal data keys
+
+    Returns:
+        tuple: list with company data and list with personal data
+    """
     company_data = []
     personal_data = []
 
