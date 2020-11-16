@@ -73,38 +73,26 @@ class Employee(Resource):
                         "code": HTTPStatus.BAD_REQUEST
                     }
                 )
-            else:
-                company_data = []
-                personal_data = []
+            company_data, personal_data = helper.company_personal_lists_generator(
+                dictionary, company_employee_keys, personal_employee_keys
+            )
 
-                for key in dictionary.keys():
-                    # keys validation
-                    if key in company_employee_keys:
-                        company_data.append(dictionary.get(key))
-                    if key in personal_employee_keys:
-                        personal_data.append(dictionary.get(key))
+            try:
+                company_object = CompanyEmployeeData(*company_data)
+                personal_object = PersonalEmployeeData(*personal_data)
+            except ValueError as ex:
+                return jsonify({"message": ex.args[0], "code": ex.args[1]})
 
-                try:
-                    company_object = CompanyEmployeeData(*company_data)
-                    personal_object = PersonalEmployeeData(*personal_data)
-                except ValueError as ex:
-                    return jsonify({"message": ex.args[0], "code": ex.args[1]})
+            is_ok, status = helper.find_validate_email(dictionary, personal_object)
+            if not is_ok:
+                return jsonify({"message": status[0], "code": status[1]})
 
-                for key, value in dictionary.items():
-                    # iterate thru inner dictionary
-                    if key == "email":
-                        try:
-                            # calling email setter
-                            personal_object.email_set(value, dictionary["company"])
-                        except ValueError as ex:
-                            return jsonify({"message": ex.args[0], "code": ex.args[1]})
-
-                all_personal_dicts, all_company_dicts = helper.generate_data(
-                    personal_employee_keys, company_employee_keys,
-                    personal_object, company_object
-                )
-                personal.insert(all_personal_dicts)
-                company.insert(all_company_dicts)
+            all_personal_dicts, all_company_dicts = helper.generate_data(
+                personal_employee_keys, company_employee_keys,
+                personal_object, company_object
+            )
+            personal.insert(all_personal_dicts)
+            company.insert(all_company_dicts)
 
         return jsonify({"message": "data saved in database successfully", "code": HTTPStatus.OK})
 
