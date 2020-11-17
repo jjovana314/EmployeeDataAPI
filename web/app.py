@@ -11,6 +11,7 @@ import helper
 
 # todo: write docstrings in all modules
 # todo: separate post method into small functions
+# todo: test api
 
 app = Flask(__name__)
 api = Api(app)
