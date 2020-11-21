@@ -14,9 +14,6 @@ import validators
 import exceptions
 
 
-# todo: fix bug in phone_validation
-
-
 def validate_schema(schema: dict, data: dict) -> None:
     """ JSON schema validation.
 
