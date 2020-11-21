@@ -347,7 +347,7 @@ def find_validate_email(dictionary: dict, personal_object: object) -> tuple:
         if key == "email":
             try:
                 personal_object.email_set(value, dictionary.get("company"))
-            except ValueError as ex:
+            except exceptions.EmailException as ex:
                 return False, ex.args
     return True, None
 
