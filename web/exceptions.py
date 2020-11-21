@@ -1,3 +1,5 @@
+""" Exception classes. """
+
 class SchemaError(Exception):
     """ General schema error. """
 
