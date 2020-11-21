@@ -10,6 +10,8 @@ from resources.PersonalEmployeeData import PersonalEmployeeData
 from http import HTTPStatus
 import json
 import helper
+import exceptions
+
 
 # todo: write docstrings in all modules
 # todo: separate post method into small functions
@@ -84,7 +86,7 @@ class Employee(Resource):
             try:
                 company_object = CompanyEmployeeData(*company_data)
                 personal_object = PersonalEmployeeData(*personal_data)
-            except ValueError as ex:
+            except exceptions.DataException as ex:
                 return jsonify({"message": ex.args[0], "code": ex.args[1]})
 
             is_ok, status = helper.find_validate_email(dictionary, personal_object)
