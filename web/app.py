@@ -67,7 +67,9 @@ class Employee(Resource):
         try:
             data = helper.id_key_config(data_json)
         except KeyError:
-            return jsonify({"message": "please enter '_id' key", "code": HTTPStatus.BAD_REQUEST})
+            return jsonify(
+                {"message": "please enter '_id' key", "code": HTTPStatus.BAD_REQUEST}
+            )
 
         for dictionary in data:
             try:
@@ -100,7 +102,9 @@ class Employee(Resource):
             personal.insert(all_personal_dicts)
             company.insert(all_company_dicts)
 
-        return jsonify({"message": "data saved in database successfully", "code": HTTPStatus.OK})
+        return jsonify(
+            {"message": "data saved in database successfully", "code": HTTPStatus.OK}
+        )
 
 
 api.add_resource(Employee, "/employee_data")
