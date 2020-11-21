@@ -11,6 +11,7 @@ from copy import copy
 from datetime import datetime
 import re
 import validators
+import exceptions
 
 
 # todo: fix bug in phone_validation
@@ -48,7 +49,7 @@ def name_validation(value: dict) -> dict:
         value {dict}: dictionary with first and last name
 
     Raises:
-        ValueError: if dictionary is not valid
+        NameException: if dictionary is not valid
 
     Returns:
         value {dict}: if dictionary is valid
@@ -64,7 +65,7 @@ def name_validation(value: dict) -> dict:
     first = value.get("first", None)
     last = value.get("last", None)
     if not(first and last):
-        raise ValueError(
+        raise exceptions.NameException(
             "'name' must contain 'first' and 'last' fields",
             HTTPStatus.BAD_REQUEST
         )
@@ -78,7 +79,7 @@ def balance_validation(value: str) -> bool:
         value {str}: balance in string format (dollar sign at the beginning)
 
     Raises:
-        ValueError: if balance is not valid
+        BalanceException: if balance is not valid
 
     Returns:
         value_num {float}: balance value in float format if value is valid
@@ -95,7 +96,7 @@ def balance_validation(value: str) -> bool:
     """
     if value[0] != "$":
         # dollar is expected currency
-        raise ValueError(
+        raise exceptions.BalanceException(
             f"invalid currency (expected '$', not {value[0]})",
             HTTPStatus.BAD_REQUEST
         )
@@ -104,7 +105,9 @@ def balance_validation(value: str) -> bool:
         # ! work in python 3+
         value_num = float(value[1:].replace(",","_"))
     except ValueError:
-        raise ValueError("balance is not valid", HTTPStatus.BAD_REQUEST)
+        raise exceptions.BalanceException(
+            "balance is not valid", HTTPStatus.BAD_REQUEST
+        ) from None
     else:
         return value_num
 
@@ -116,7 +119,7 @@ def phone_validation(value: str) -> str:
         value {str}: phone number for validation
 
     Raises:
-        ValueError: if phone number is not valid
+        PhoneException: if phone number is not valid
 
     Returns:
         value {str}: phone number if phone number is valid
@@ -145,7 +148,9 @@ def phone_validation(value: str) -> str:
     if re.search(regex, value[index_call_number:].replace(" ", "")):
         return value
     # if phone number does not match to regex format
-    raise ValueError("phone number is not in valid format", HTTPStatus.BAD_REQUEST)
+    raise exceptions.PhoneException(
+        "phone number is not in valid format", HTTPStatus.BAD_REQUEST
+    )
 
 
 def picture_validation(value: str) -> str:
@@ -155,7 +160,7 @@ def picture_validation(value: str) -> str:
         value {str}: picture's url
 
     Raises:
-        ValueError: if url is not valid
+        PictureException: if url is not valid
 
     Returns:
         value {str}: picture's url if url is valid
@@ -163,7 +168,9 @@ def picture_validation(value: str) -> str:
     valid = validators.url(value)
     if valid == True:
         return value
-    raise ValueError("url for picture is not valid", HTTPStatus.BAD_REQUEST)
+    raise exceptions.PictureException(
+        "url for picture is not valid", HTTPStatus.BAD_REQUEST
+    )
 
 
 def address_validation(value: str) -> str:
@@ -173,7 +180,7 @@ def address_validation(value: str) -> str:
         value {str}: address for validation
 
     Raises:
-        ValueError: if address is not valid
+        AddressException: if address is not valid
 
     Returns:
         value {str}: address if addres is valid
@@ -184,7 +191,7 @@ def address_validation(value: str) -> str:
     has_numbers = bool(re.search(r"\d", value))
     # validation is based on checking if there are numbers in address
     if not has_numbers:
-        raise ValueError(
+        raise exceptions.AddressException(
             "address is not valid, please enter numbers in it", HTTPStatus.BAD_REQUEST
         )
     return value
@@ -198,7 +205,7 @@ def email_validation(value: str, company_name: str) -> str:
         company_name {str}: company name for current employee
 
     Raises:
-        ValueError: if email address is not valid
+        EmailException: if email address is not valid
 
     Returns:
         value {str}: email address if email address is valid
@@ -230,7 +237,7 @@ def email_validation(value: str, company_name: str) -> str:
         if email == value:
             return value
 
-    raise ValueError(
+    raise exceptions.EmailException(
         f"email you sent is not valid, you sent {value}, company is {company_name}",
         HTTPStatus.BAD_REQUEST
     )
@@ -263,7 +270,7 @@ def latitude_longitude_validation(value: str, caller_name: str) -> str:
         caller_name {str}: name of method that is callig function
 
     Raises:
-        ValueError: if latitude or longitude is not valid
+        LatitudeLongitudeException: if latitude or longitude is not valid
 
     Returns:
         value {float}: if latitude or longitude is valid (can be converted to float)
@@ -271,7 +278,9 @@ def latitude_longitude_validation(value: str, caller_name: str) -> str:
     try:
         value = float(value)
     except ValueError:
-        raise ValueError(f"'{caller_name}' is not valid", HTTPStatus.BAD_REQUEST)
+        raise exceptions.LatitudeLongitudeException(
+            f"'{caller_name}' is not valid", HTTPStatus.BAD_REQUEST
+        ) from None
     else:
         return value
 
@@ -291,7 +300,9 @@ def register_validation(value: str) -> datetime:
     try:
         registered = datetime.strptime(value, "%A, %B %d, %Y %I:%M %p")
     except ValueError:
-        raise ValueError("invalid date format", HTTPStatus.BAD_REQUEST) from None
+        raise exceptions.RegisterException(
+            "invalid date format", HTTPStatus.BAD_REQUEST
+        ) from None
     else:
         return registered
 
