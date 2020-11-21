@@ -13,7 +13,7 @@ import helper
 import exceptions
 
 
-# todo: write docstrings in all modules
+# todo: write comments
 # todo: separate post method into small functions
 # todo: test api
 
