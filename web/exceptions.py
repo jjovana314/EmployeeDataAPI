@@ -36,6 +36,10 @@ class NameException(DataException):
     """ Raised if employee name is not valid. """
 
 
+class BalanceException(DataException):
+    """ Raised if employee balance is not valid. """
+
+
 class PhoneException(DataException):
     """ Raised if employee phone is not valid. """
 
