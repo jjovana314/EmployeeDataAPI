@@ -1,3 +1,5 @@
+""" Employee API. """
+
 from flask import jsonify, Flask, request
 from flask_restful import Resource, Api
 from pymongo import MongoClient
@@ -54,6 +56,7 @@ personal_employee_keys = [
 
 
 class Employee(Resource):
+    """ Employee data class. """
     def post(self):
         data_json = request.get_json()
         global company_employee_keys
