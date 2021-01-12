@@ -1,0 +1,59 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {"type": "string", "minLength": 24, "max_length": 24},
+        "index": {"type": "integer", "minimum": 0},
+        "guid": {"type": "string", "minLenth": 36, "maxLength": 36},
+        "isActive": {"type": "boolean"},
+        "balance": {"type": "string", "minLength": 2},
+        "picture": {"type": "string", "minLength": 20},
+        "age": {"type": "number", "minimum": 18},
+        "eyeColor": {"type": "string", "enum": ["blue", "green", "brown", "black"]},
+        "name": {
+            "type": "object",
+            "properties": {
+                "first": {"type": "string", "minLength": 2},
+                "last": {"type": "string", "minLength": 2}
+            },
+            "additionalProperties": false
+        },
+        "company": {"type": "string", "minLength": 2},
+        "email": {"type": "string", "minLength": 10},
+        "phone": {"type": "string", "minLength": 17, "maxLength": 20},
+        "address": {"type": "string", "minLength": 20},
+        "about": {"type": "string", "minLenth": 30},
+        "registered": {"type": "string", "minLenth": 20},
+        "latitude": {"type": "string", "minLenth": 10},
+        "longitude": {"type": "string", "minLenth": 10},
+        "tags": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 5,
+            "maxItems": 5
+        },
+        "range": {
+            "type": "array",
+            "items": {
+                "type": "number"
+            },
+            "minItems": 10,
+            "maxItems": 10
+        },
+        "friends": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {"type": "number", "minimum": 0, "maximum": 9},
+                    "name": {"type": "string", "minLength": 2}
+                }
+            }
+        },
+        "greeting": {"type": "string", "minLength": 10},
+        "favoriteFruit": {"type": "string", "enum": ["strawberry", "banana", "apple"]}
+    },
+    "minProperties": 22,
+    "additionalProperties": false
+}
