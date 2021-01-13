@@ -28,7 +28,7 @@ def validate_schema(schema: dict, data: dict) -> None:
     data = dumps(data)
     try:
         # try to do validation for our json data
-        validate(loads(data), schema)
+        validate(data, schema)
     except ValidationError as ex:
         # ! here we do not except JSONDecodeError, remember that!
         ex_str = str(ex)
