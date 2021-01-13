@@ -8,7 +8,7 @@
         "balance": {"type": "string", "minLength": 2},
         "picture": {"type": "string", "minLength": 20},
         "age": {"type": "number", "minimum": 18},
-        "eyeColor": {"type": "string", "enum": ["blue", "green", "brown", "black"]},
+        "eyeColor": {"enum": ["blue", "green", "brown", "black"]},
         "name": {
             "type": "object",
             "properties": {
@@ -52,7 +52,7 @@
             }
         },
         "greeting": {"type": "string", "minLength": 10},
-        "favoriteFruit": {"type": "string", "enum": ["strawberry", "banana", "apple"]}
+        "favoriteFruit": {"enum": ["strawberry", "banana", "apple"]}
     },
     "minProperties": 22,
     "additionalProperties": false
