@@ -40,10 +40,11 @@ def validate_schema(schema: dict, data: dict) -> None:
         ex_str = str(ex)
         # note that return_key_error should be called only if exception apears
         key_error_from_data = return_key_error(ex_str, keys)
-        error_msg = f"Error occures at key: {key_error_from_data}"
+        key_err_location = f"Error occures at key: {key_error_from_data}"
         for idx, value in enumerate(schema_errors):
             if value in ex_str:
-                raise schema_exceptions[idx](error_messages[idx], error_msg)
+                error_ = error_messages[idx] + " - " + key_err_location
+                raise schema_exceptions[idx](error_messages[idx])
 
 
 def return_key_error(ex_str: str, keys: list) -> str:
