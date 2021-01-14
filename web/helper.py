@@ -80,8 +80,6 @@ def all_data_keys(data: dict) -> None:
         keys_outter.append(*keys_inner)
 
 
-
-
 def name_validation(value: dict) -> dict:
     """ Employee name validation.
 
