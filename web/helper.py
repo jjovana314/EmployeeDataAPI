@@ -14,6 +14,9 @@ import validators
 import exceptions
 
 
+keys_outter = []    # all keys from data dictionary
+
+
 def validate_schema(schema: dict, data: dict) -> None:
     """ JSON schema validation.
 
@@ -39,15 +42,8 @@ def validate_schema(schema: dict, data: dict) -> None:
         key_error_from_data = return_key_error(ex_str, keys)
         error_msg = f"Error occures at key: {key_error_from_data}"
         for idx, value in enumerate(schema_errors):
-            # create appropriate message for user
-            # if there is exception occured
-            # todo: if exception occures, try to find key that is causing error
-            # todo: and send it to user
             if value in ex_str:
                 raise schema_exceptions[idx](error_messages[idx], error_msg)
-
-
-keys_outter = []
 
 
 def return_key_error(ex_str: str, keys: list) -> str:
@@ -61,23 +57,28 @@ def return_key_error(ex_str: str, keys: list) -> str:
         string representation of key where error occures
     """
     for key in keys:
-        key_temp = str(key)
-        if key_temp in ex_str:
-            return key_temp
+        maybe_invalid_key = str(key)
+        if maybe_invalid_key in ex_str:
+            # if key is mentioned in error, we want to send it back
+            # ! note theat key that is causing error shoud apear first in ex_str string
+            return maybe_invalid_key
 
 
 def all_data_keys(data: dict) -> None:
+    """ Collect all keys from data in one list.
+
+    Arguments:
+        data {dict}: dictionary with all keys and values from user
+    """
     global keys_outter
-    keys_inner = []
     keys_outter = list(data.keys())
     for key, value in data.items():
         if isinstance(value, dict):
             # recursive call if there is nasted dictionary
             all_data_keys(value)
         else:
-            keys_inner.append(key)
-    if len(keys_inner) != 0:
-        keys_outter.append(*keys_inner)
+            # otherwise, append key to keys_inner
+            keys_outter.append(key)
 
 
 def name_validation(value: dict) -> dict:
