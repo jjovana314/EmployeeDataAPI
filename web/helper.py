@@ -35,6 +35,8 @@ def validate_schema(schema: dict, data: dict) -> None:
         for idx, value in enumerate(schema_errors):
             # create appropriate message for user
             # if there is exception occured
+            # todo: if exception occures, try to find key that is causing error
+            # todo: and send it to user
             if value in ex_str:
                 raise schema_exceptions[idx](error_messages[idx])
 
