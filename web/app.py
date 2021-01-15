@@ -15,7 +15,7 @@ import exceptions
 
 # todo: write comments
 # todo: separate post method into small functions
-# todo: test api
+# todo: test api and fix bugs!
 
 app = Flask(__name__)
 api = Api(app)
