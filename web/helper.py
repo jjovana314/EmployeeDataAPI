@@ -27,8 +27,6 @@ def validate_schema(schema: dict, data: dict) -> None:
     Raises:
         SchemaError: if data dictionary is not valid
     """
-    # we want json data, so we have to dump our data into json string
-    # data_dict = dumps(data)
     all_data_keys(data)
 
     try:
@@ -37,13 +35,13 @@ def validate_schema(schema: dict, data: dict) -> None:
     except ValidationError as ex:
         # ! here we do not except JSONDecodeError, remember that!
         ex_str = str(ex)
-        # note that return_key_error should be called only if exception apears
+
         key_error_from_data = return_key_error(ex_str, keys_outter)
         key_err_location = f"Error occures at key: {key_error_from_data}"
         for idx, value in enumerate(schema_errors):
             if value in ex_str:
                 error_ = error_messages[idx] + " - " + key_err_location
-                raise schema_exceptions[idx](error_messages[idx])
+                raise schema_exceptions[idx](error_)
 
 
 def return_key_error(ex_str: str, keys: list) -> str:
@@ -72,7 +70,7 @@ def all_data_keys(data: dict) -> None:
     """
     global keys_outter
     keys_outter = [key for key in list(data.keys())]
-    # keys_outter.append(*list(data.keys()))
+
     for key, value in data.items():
         if isinstance(value, dict):
             # recursive call if there is nasted dictionary
