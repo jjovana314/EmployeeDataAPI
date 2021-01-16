@@ -30,6 +30,9 @@ schema = {}
 with open("schema.json", "r") as f:
     schema = json.load(f)
 
+# we are separating keys into two lists because they will be sent
+# to the classes that has to validate values
+
 company_employee_keys = [
     "index",
     "guid",
@@ -65,6 +68,9 @@ class Employee(Resource):
         global company_employee_keys
         global personal_employee_keys
 
+        # key 'id' needs to be validated in specific way
+        # because original 'id' name of key needs to be replaced
+        # with '_id' in order to put value in database
         try:
             data = helper.id_key_config(data_json)
         except KeyError:
@@ -72,6 +78,7 @@ class Employee(Resource):
                 {"message": "please enter '_id' key", "code": HTTPStatus.BAD_REQUEST}
             )
 
+        # iterate through data and validate all dictionaries
         for dictionary in data:
             try:
                 helper.validate_schema(schema, dictionary)
@@ -86,6 +93,8 @@ class Employee(Resource):
                 dictionary, company_employee_keys, personal_employee_keys
             )
 
+            # here we try to separate data into CompanyEmployeeData
+            # and PersonalEmployeeData
             try:
                 company_object = CompanyEmployeeData(*company_data)
                 personal_object = PersonalEmployeeData(*personal_data)
@@ -96,10 +105,12 @@ class Employee(Resource):
             if not is_ok:
                 return jsonify({"message": status[0], "code": status[1]})
 
+            # prepare all data for database
             all_personal_dicts, all_company_dicts = helper.generate_data(
                 personal_employee_keys, company_employee_keys,
                 personal_object, company_object
             )
+            # insert data into database for current dictionary
             personal.insert(all_personal_dicts)
             company.insert(all_company_dicts)
 
