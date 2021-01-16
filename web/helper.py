@@ -61,7 +61,7 @@ def return_key_error(ex_str: str, keys: list) -> str:
         maybe_invalid_key = str(key)
         if maybe_invalid_key in ex_str:
             # if key is mentioned in error, we want to send it back
-            # ! note theat key that is causing error shoud apear first in ex_str string
+            # note theat key that is causing error shoud apear first in ex_str string
             return maybe_invalid_key    # value on that key is not valid, so we return the key
 
 
