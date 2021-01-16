@@ -333,7 +333,7 @@ def register_validation(value: str) -> datetime:
         value {str}: date in string format
 
     Raises:
-        ValueError: if date format is invalid
+        RegisterException: if date format is invalid
 
     Returns:
         register date converted to datetime format
@@ -355,7 +355,7 @@ def id_key_config(data: list) -> list:
         data {list}: all data from server
 
     Returns:
-        all data with modified id key ('id' instead of '_id')
+        all data (list) with modified id key ('id' instead of '_id')
     """
     data_return = list()
     dict_return = dict()
