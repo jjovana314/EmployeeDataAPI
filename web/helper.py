@@ -38,7 +38,7 @@ def validate_schema(schema: dict, data: dict) -> None:
 
         # note that if exception occured, we sure have a invalid key
         # we just want to find a location
-        key_error_from_data = return_key_error(ex_str, keys_outter)
+        key_error_from_data = return_key_error(str_repr_err, keys_outter)
 
         key_err_msg = f"Error occures at key: {key_error_from_data}"
         for idx, error_msg in enumerate(schema_errors):
