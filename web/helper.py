@@ -27,21 +27,24 @@ def validate_schema(schema: dict, data: dict) -> None:
     Raises:
         SchemaError: if data dictionary is not valid
     """
-    all_data_keys(data)
+    all_data_keys(data)     # generate all keys in keys_outter array
 
     try:
         # try to do validation for our json data
         validate(data, schema)
     except ValidationError as ex:
         # ! here we do not except JSONDecodeError, remember that!
-        ex_str = str(ex)
+        str_repr_err = str(ex)
 
+        # note that if exception occured, we sure have a invalid key
+        # we just want to find a location
         key_error_from_data = return_key_error(ex_str, keys_outter)
-        key_err_location = f"Error occures at key: {key_error_from_data}"
-        for idx, value in enumerate(schema_errors):
-            if value in ex_str:
-                error_ = error_messages[idx] + " - " + key_err_location
-                raise schema_exceptions[idx](error_)
+
+        key_err_msg = f"Error occures at key: {key_error_from_data}"
+        for idx, error_msg in enumerate(schema_errors):
+            if error_msg in str_repr_err:
+                error_location = error_msg + " - " + key_err_msg
+                raise schema_exceptions[idx](error_location)
 
 
 def return_key_error(ex_str: str, keys: list) -> str:
@@ -59,7 +62,7 @@ def return_key_error(ex_str: str, keys: list) -> str:
         if maybe_invalid_key in ex_str:
             # if key is mentioned in error, we want to send it back
             # ! note theat key that is causing error shoud apear first in ex_str string
-            return maybe_invalid_key
+            return maybe_invalid_key    # value on that key is not valid, so we return the key
 
 
 def all_data_keys(data: dict) -> None:
