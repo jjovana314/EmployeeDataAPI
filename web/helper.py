@@ -440,6 +440,7 @@ def generate_data(
     all_personal_dicts = []
     all_company_dicts = []
 
+    # todo: find some more elegant solution
     personal_dicts = dict(zip(personal_keys, personal_values))
     company_dicts = dict(zip(company_keys, company_values))
     all_personal_dicts.append(personal_dicts)
