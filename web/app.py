@@ -147,9 +147,7 @@ class Employee(Resource):
             personal.insert(all_personal_dicts)
             company.insert(all_company_dicts)
 
-        return jsonify(
-            {"message": "data saved in database successfully", "code": HTTPStatus.OK}
-        )
+        return jsonify({"message": "data saved in database successfully", "code": HTTPStatus.OK})
 
 
 api.add_resource(Employee, "/employee_data")
