@@ -61,6 +61,47 @@ personal_employee_keys = [
 ]
 
 
+def schema_validation_caller(schema: dict, curr_dict: dict) -> tuple:
+        """ Calling validate_schema function from helper modlue.
+
+        Arguments:
+            schema {dict}: schema for validation
+            curr_dict {dict}: current dictionary for validation
+
+        Returns:
+            tuple with exception's first argument and boolean False value
+            if exception occures. Otherwise, we return empty string and
+            boolean value True (ie if exception didn't occured)
+        """
+        try:
+            helper.validate_schema(schema, curr_dict)
+        except exceptions.SchemaError as ex:
+            return ex.args[0], False
+        else:
+            return "", True
+
+
+def separate_data(company_data: list, personal_data: list) -> tuple:
+    """ Separate data into two different classes.
+
+    Arguments:
+        company_data {list}: data that we consider as data important for company
+        personal_data {list}: data with user's personal informations
+
+    Returns:
+        tuple with exception arguments if data is not valid,
+        otherwise, tuple with CompanyEmployeeData instance and
+        PersonalEmployeeData instance
+    """
+    try:
+        company_object = CompanyEmployeeData(*company_data)
+        personal_object = PersonalEmployeeData(*personal_data)
+    except exceptions.DataException as ex:
+        return ex.args[0], ex.args[1]
+    else:
+        return company_object, personal_object
+
+
 class Employee(Resource):
     """ Employee data class. """
     def post(self):
@@ -80,35 +121,27 @@ class Employee(Resource):
 
         # iterate through data and validate all dictionaries
         for dictionary in data:
-            try:
-                helper.validate_schema(schema, dictionary)
-            except SchemaError as ex:
-                return jsonify(
-                    {
-                        "message": ex.args[0],
-                        "code": HTTPStatus.BAD_REQUEST
-                    }
-                )
+
+            result, status = schema_validation_caller(schema, dictionary)
+            if status is False:
+                return jsonify({"message": result, "code": HTTPStatus.BAD_REQUEST})
+
             company_data, personal_data = helper.company_personal_lists_generator(
                 dictionary, company_employee_keys, personal_employee_keys
             )
 
-            # here we try to separate data into CompanyEmployeeData
-            # and PersonalEmployeeData
-            try:
-                company_object = CompanyEmployeeData(*company_data)
-                personal_object = PersonalEmployeeData(*personal_data)
-            except exceptions.DataException as ex:
-                return jsonify({"message": ex.args[0], "code": ex.args[1]})
+            maybe_company_obj, maybe_personal_obj = separate_data(company_data, personal_data)
+            if not (isinstance(maybe_company_obj, CompanyEmployeeData) and isinstance(maybe_personal_obj, PersonalEmployeeData)):
+                # exception occured, maybe_company_obj and maybe_personal_obj are exception instances
+                return jsonify({"message": maybe_company_obj, "code": maybe_personal_obj})
 
-            is_ok, status = helper.find_validate_email(dictionary, personal_object)
+            is_ok, status = helper.find_validate_email(dictionary, maybe_personal_obj)
             if not is_ok:
                 return jsonify({"message": status[0], "code": status[1]})
 
             # prepare all data for database
             all_personal_dicts, all_company_dicts = helper.generate_data(
-                personal_employee_keys, company_employee_keys,
-                personal_object, company_object
+                personal_employee_keys, company_employee_keys, maybe_personal_obj, maybe_company_obj
             )
             # insert data into database for current dictionary
             personal.insert(all_personal_dicts)
