@@ -11,7 +11,8 @@ schema_errors = [
     "Failed validating 'minimum' in schema",
     "Failed validating 'maximum' in schema",
     "Failed validating 'minItems' in schema",
-    "Failed validating 'maxItems' in schema"
+    "Failed validating 'maxItems' in schema",
+    "Failed validating 'enum' in schema"
 ]
 
 error_messages = [
@@ -22,7 +23,8 @@ error_messages = [
     "Value is less then minimum",
     "Value is greater then maximum",
     "Array has less items than minimum",
-    "Array has more items than maximum"
+    "Array has more items than maximum",
+    "Enum is not valid"
 ]
 
 schema_exceptions = [
@@ -33,5 +35,6 @@ schema_exceptions = [
     exceptions.MinimumSchemaError,
     exceptions.MaximumSchemaError,
     exceptions.MinimumSchemaError,
-    exceptions.MaximumSchemaError
+    exceptions.MaximumSchemaError,
+    exceptions.EnumSchemaError
 ]
