@@ -28,6 +28,10 @@ class MaximumSchemaError(SchemaError):
     """ Raised if value in data is greater then maximum. """
 
 
+class EnumSchemaError(SchemaError):
+    """ Raised if there is error with enum values from data. """
+
+
 class DataException(Exception):
     """ General data exception. """
 
