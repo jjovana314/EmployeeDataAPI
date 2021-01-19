@@ -14,9 +14,6 @@ import validators
 import exceptions
 
 
-keys_outter = []    # all keys from data dictionary
-
-
 def validate_schema(schema: dict, data: dict) -> None:
     """ JSON schema validation.
 
@@ -27,60 +24,14 @@ def validate_schema(schema: dict, data: dict) -> None:
     Raises:
         SchemaError: if data dictionary is not valid
     """
-    all_data_keys(data)     # generate all keys in keys_outter array
+    # all_data_keys(data)     # generate all keys in keys_outter array
 
+    # validate(data, schema)
     try:
-        # try to do validation for our json data
         validate(data, schema)
     except ValidationError as ex:
-        # ! here we do not except JSONDecodeError, remember that!
-        str_repr_err = str(ex)
-
-        # note that if exception occured, we sure have a invalid key
-        # we just want to find a location
-        key_error_from_data = return_key_error(str_repr_err, keys_outter)
-
-        key_err_msg = f"Error occures at key: {key_error_from_data}"
-        for idx, error_msg in enumerate(schema_errors):
-            if error_msg in str_repr_err:
-                error_location = error_msg + " - " + key_err_msg
-                raise schema_exceptions[idx](error_location)
-
-
-def return_key_error(ex_str: str, keys: list) -> str:
-    """ Iterate through the string error and return key where error apears.
-
-    Arguments:
-        ex_str {str}: string representation of error
-        keys {list}: all keys in data dictionary
-
-    Returns:
-        string representation of key where error occures
-    """
-    for key in keys:
-        maybe_invalid_key = str(key)
-        if maybe_invalid_key in ex_str:
-            # if key is mentioned in error, we want to send it back
-            # note theat key that is causing error shoud apear first in ex_str string
-            return maybe_invalid_key    # value on that key is not valid, so we return the key
-
-
-def all_data_keys(data: dict) -> None:
-    """ Collect all keys from data in one list.
-
-    Arguments:
-        data {dict}: dictionary with all keys and values from user
-    """
-    global keys_outter
-    keys_outter = [key for key in list(data.keys())]
-
-    for key, value in data.items():
-        if isinstance(value, dict):
-            # recursive call if there is nasted dictionary
-            all_data_keys(value)
-        else:
-            # otherwise, append key to keys_inner
-            keys_outter.append(key)
+        for idx in range(len(schema_exceptions)):
+            raise schema_exceptions[idx](ex.message)
 
 
 def name_validation(value: dict) -> dict:
@@ -348,6 +299,9 @@ def register_validation(value: str) -> datetime:
         return registered
 
 
+# until we find something better:
+
+
 def id_key_config(data: list) -> list:
     """ Configuration for id key.
 
@@ -361,12 +315,20 @@ def id_key_config(data: list) -> list:
     dict_return = dict()
 
     for dict_ in data:
-        id_temp = dict_["_id"]
+        # copy value from '_id' key to id_temp
+        # id_temp = dict_["_id"]
 
+        # copy temporary dictionary into dict_return
         dict_return = copy(dict_)
+        # copy data from "_id" to "id"
+        dict_return["id"] = dict_["_id"]
+
         # removing '_id' from shallow copy
         del dict_return["_id"]
-        dict_return["id"] = id_temp
+
+        # dict_return["id"] = id_temp
+
+        # append modified dictionary on data_return
         data_return.append(dict_return)
 
     return data_return
