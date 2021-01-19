@@ -24,9 +24,6 @@ def validate_schema(schema: dict, data: dict) -> None:
     Raises:
         SchemaError: if data dictionary is not valid
     """
-    # all_data_keys(data)     # generate all keys in keys_outter array
-
-    # validate(data, schema)
     try:
         validate(data, schema)
     except ValidationError as ex:
