@@ -7,7 +7,7 @@
         "isActive": {"type": "boolean"},
         "balance": {"type": "string", "minLength": 2},
         "picture": {"type": "string", "minLength": 20},
-        "age": {"type": "number", "minimum": 18},
+        "age": {"type": "integer", "minimum": 18},
         "eyeColor": {"enum": ["blue", "green", "brown", "black"]},
         "name": {
             "type": "object",
