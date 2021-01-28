@@ -12,7 +12,6 @@ import json
 import helper
 import exceptions
 
-
 # todo: write comments
 # todo: separate post method into small functions
 # todo: test api
@@ -62,7 +61,7 @@ personal_employee_keys = [
 
 
 def schema_validation_caller(schema: dict, curr_dict: dict) -> tuple:
-        """ Calling validate_schema function from helper modlue.
+    """ Calling validate_schema function from helper modlue.
 
         Arguments:
             schema {dict}: schema for validation
@@ -73,12 +72,12 @@ def schema_validation_caller(schema: dict, curr_dict: dict) -> tuple:
             if exception occures. Otherwise, we return empty string and
             boolean value True (ie if exception didn't occured)
         """
-        try:
-            helper.validate_schema(schema, curr_dict)
-        except exceptions.SchemaError as ex:
-            return ex.args[0], False
-        else:
-            return "", True
+    try:
+        helper.validate_schema(schema, curr_dict)
+    except exceptions.SchemaError as ex:
+        return ex.args[0], False
+    else:
+        return "", True
 
 
 def separate_data(company_data: list, personal_data: list) -> tuple:
@@ -86,7 +85,7 @@ def separate_data(company_data: list, personal_data: list) -> tuple:
 
     Arguments:
         company_data {list}: data that we consider as data important for company
-        personal_data {list}: data with user's personal informations
+        personal_data {list}: data with user's personal information
 
     Returns:
         tuple with exception arguments if data is not valid,
@@ -104,6 +103,7 @@ def separate_data(company_data: list, personal_data: list) -> tuple:
 
 class Employee(Resource):
     """ Employee data class. """
+
     def post(self):
         data_json = request.get_json()
         global company_employee_keys
@@ -131,8 +131,9 @@ class Employee(Resource):
             )
 
             maybe_company_obj, maybe_personal_obj = separate_data(company_data, personal_data)
-            if not (isinstance(maybe_company_obj, CompanyEmployeeData) and isinstance(maybe_personal_obj, PersonalEmployeeData)):
-                # exception occured, maybe_company_obj and maybe_personal_obj are exception instances
+            if not (isinstance(maybe_company_obj, CompanyEmployeeData) and 
+                    isinstance(maybe_personal_obj, PersonalEmployeeData)):
+                # exception occurred, maybe_company_obj and maybe_personal_obj are exception instances
                 return jsonify({"message": maybe_company_obj, "code": maybe_personal_obj})
 
             is_ok, status = helper.find_validate_email(dictionary, maybe_personal_obj)
