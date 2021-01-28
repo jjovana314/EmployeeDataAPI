@@ -3,7 +3,7 @@
     "properties": {
         "id": {"type": "string", "minLength": 24, "max_length": 24},
         "index": {"type": "integer", "minimum": 0},
-        "guid": {"type": "string", "minLenth": 36, "maxLength": 36},
+        "guid": {"type": "string", "minLength": 36, "maxLength": 36},
         "isActive": {"type": "boolean"},
         "balance": {"type": "string", "minLength": 2},
         "picture": {"type": "string", "minLength": 20},
@@ -21,10 +21,10 @@
         "email": {"type": "string", "minLength": 10},
         "phone": {"type": "string", "minLength": 17, "maxLength": 20},
         "address": {"type": "string", "minLength": 20},
-        "about": {"type": "string", "minLenth": 30},
-        "registered": {"type": "string", "minLenth": 20},
-        "latitude": {"type": "string", "minLenth": 10},
-        "longitude": {"type": "string", "minLenth": 10},
+        "about": {"type": "string", "minLength": 30},
+        "registered": {"type": "string", "minLength": 20},
+        "latitude": {"type": "string", "minLength": 8},
+        "longitude": {"type": "string", "minLength": 8},
         "tags": {
             "type": "array",
             "items": {
