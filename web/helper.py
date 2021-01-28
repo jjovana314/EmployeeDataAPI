@@ -1,9 +1,7 @@
 """ Validator and helper for employee data. """
 
 from http import HTTPStatus
-from exception_messages import (
-    schema_errors, error_messages, schema_exceptions
-)
+from exception_array import schema_exceptions
 from jsonschema import validate
 from jsonschema.exceptions import ValidationError
 from json import dumps, loads
@@ -61,7 +59,7 @@ def name_validation(value: dict) -> dict:
     return value
 
 
-def balance_validation(value: str) -> bool:
+def balance_validation(value: str) -> float:
     """ Employee balance validation.
 
     Arguments:
@@ -128,7 +126,10 @@ def phone_validation(value: str) -> str:
             index_call_number = value.index(num)
             break
     # phone number without call number
-    phone_number = value[index_call_number:]
+    try:
+        phone_number = value[index_call_number:]
+    except UnboundLocalError as ex:
+        raise exceptions.PhoneException("phone is not valid", HTTPStatus.BAD_REQUEST)
 
     # format of phone number without call number
     regex = re.compile("\(\d{3}\)\d{3}-\d{4}")
@@ -155,7 +156,7 @@ def picture_validation(value: str) -> str:
         value {str}: picture's url if url is valid
     """
     valid = validators.url(value)
-    if valid == True:
+    if valid:
         return value
     raise exceptions.PictureException(
         "url for picture is not valid", HTTPStatus.BAD_REQUEST
@@ -296,9 +297,6 @@ def register_validation(value: str) -> datetime:
         return registered
 
 
-# until we find something better:
-
-
 def id_key_config(data: list) -> list:
     """ Configuration for id key.
 
@@ -312,9 +310,6 @@ def id_key_config(data: list) -> list:
     dict_return = dict()
 
     for dict_ in data:
-        # copy value from '_id' key to id_temp
-        # id_temp = dict_["_id"]
-
         # copy temporary dictionary into dict_return
         dict_return = copy(dict_)
         # copy data from "_id" to "id"
@@ -322,8 +317,6 @@ def id_key_config(data: list) -> list:
 
         # removing '_id' from shallow copy
         del dict_return["_id"]
-
-        # dict_return["id"] = id_temp
 
         # append modified dictionary on data_return
         data_return.append(dict_return)
