@@ -123,26 +123,26 @@ class Employee(Resource):
         for dictionary in data:
 
             result, status = schema_validation_caller(schema, dictionary)
-            if status is False:
+            if not status:
                 return jsonify({"message": result, "code": HTTPStatus.BAD_REQUEST})
 
             company_data, personal_data = helper.company_personal_lists_generator(
                 dictionary, company_employee_keys, personal_employee_keys
             )
 
-            maybe_company_obj, maybe_personal_obj = separate_data(company_data, personal_data)
-            if not (isinstance(maybe_company_obj, CompanyEmployeeData) and 
-                    isinstance(maybe_personal_obj, PersonalEmployeeData)):
-                # exception occurred, maybe_company_obj and maybe_personal_obj are exception instances
-                return jsonify({"message": maybe_company_obj, "code": maybe_personal_obj})
+            company_obj_or_msg, personal_obj_or_code = separate_data(company_data, personal_data)
+            if not (isinstance(company_obj_or_msg, CompanyEmployeeData) and 
+                    isinstance(personal_obj_or_code, PersonalEmployeeData)):
+                # exception occurred, company_obj_or_msg and personal_obj_or_code are exception instances
+                return jsonify({"message": company_obj_or_msg, "code": personal_obj_or_code})
 
-            is_ok, status = helper.find_validate_email(dictionary, maybe_personal_obj)
+            is_ok, status = helper.find_validate_email(dictionary, personal_obj_or_code)
             if not is_ok:
                 return jsonify({"message": status[0], "code": status[1]})
 
             # prepare all data for database
             all_personal_dicts, all_company_dicts = helper.generate_data(
-                personal_employee_keys, company_employee_keys, maybe_personal_obj, maybe_company_obj
+                personal_employee_keys, company_employee_keys, personal_obj_or_code, company_obj_or_msg
             )
             # insert data into database for current dictionary
             personal.insert(all_personal_dicts)
