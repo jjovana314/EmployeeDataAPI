@@ -155,8 +155,12 @@ def picture_validation(value: str) -> str:
     Returns:
         value {str}: picture's url if url is valid
     """
+    str_picture_dimensions = value[-5:]
+    # picture needs to be 32x32
+    valid_dimensions = "32x32"
     valid = validators.url(value)
-    if valid:
+
+    if valid and (str_picture_dimensions == valid_dimensions):
         return value
     raise exceptions.PictureException(
         "url for picture is not valid", HTTPStatus.BAD_REQUEST
