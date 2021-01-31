@@ -87,7 +87,21 @@ def balance_validation(value: str) -> float:
             f"invalid currency (expected '$', not {value[0]})",
             HTTPStatus.BAD_REQUEST
         )
+    return _balance_conversion(value)
 
+
+def _balance_conversion(value: str) -> float:
+    """ Try to convert balance from string to float
+
+    Arguments:
+        value {str}: string representation of balance
+
+    Returns:
+        float: converted balance value
+
+    Raises:
+        BalanceException: if balance cannot be converted to float
+    """
     try:
         # ! work in python 3+
         value_num = float(value[1:].replace(",","_"))
@@ -125,11 +139,7 @@ def phone_validation(value: str) -> str:
             # and take index of first space after call number
             index_call_number = value.index(num)
             break
-    # phone number without call number
-    try:
-        phone_number = value[index_call_number:]
-    except UnboundLocalError as ex:
-        raise exceptions.PhoneException("phone is not valid", HTTPStatus.BAD_REQUEST)
+    _validate_call_number(index_call_number)
 
     # format of phone number without call number
     regex = re.compile("\(\d{3}\)\d{3}-\d{4}")
@@ -141,6 +151,21 @@ def phone_validation(value: str) -> str:
     raise exceptions.PhoneException(
         "phone number is not in valid format", HTTPStatus.BAD_REQUEST
     )
+
+
+def _validate_call_number(index_call_number) -> None:
+    """ Make sure that phone number has a call number in it.
+
+    Arguments:
+        index_call_number {int}: index of place where call number is expected
+
+    Raises:
+        PhoneException: if a call number is not valid
+    """
+    try:
+        value[index_call_number:]
+    except UnboundLocalError as ex:
+        raise exceptions.PhoneException("call number is not valid", HTTPStatus.BAD_REQUEST)
 
 
 def picture_validation(value: str) -> str:
@@ -316,7 +341,6 @@ def id_key_config(data: list) -> list:
     for dict_ in data:
         # copy temporary dictionary into dict_return
         dict_return = copy(dict_)
-        # copy data from "_id" to "id"
         dict_return["id"] = dict_["_id"]
 
         # removing '_id' from shallow copy
